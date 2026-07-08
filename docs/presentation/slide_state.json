@@ -1,0 +1,342 @@
+{
+  "project_info": {
+    "title": "SmartLocker System",
+    "created": 1783479726.7,
+    "last_updated": 1783480580.891,
+    "total_slides": 30
+  },
+  "slides": [
+    {
+      "id": "slide_01_title",
+      "state": "edited",
+      "pageNum": 1
+    },
+    {
+      "id": "slide_02_overview",
+      "state": "edited",
+      "pageNum": 2
+    },
+    {
+      "id": "slide_03_actors",
+      "state": "edited",
+      "pageNum": 3
+    },
+    {
+      "id": "slide_04_usecases",
+      "state": "edited",
+      "pageNum": 4
+    },
+    {
+      "id": "slide_05_database",
+      "state": "edited",
+      "pageNum": 5
+    },
+    {
+      "id": "slide_06_backend",
+      "state": "edited",
+      "pageNum": 6
+    },
+    {
+      "id": "slide_07_security",
+      "state": "edited",
+      "pageNum": 7
+    },
+    {
+      "id": "slide_08_admin",
+      "state": "edited",
+      "pageNum": 8
+    },
+    {
+      "id": "slide_09_staff",
+      "state": "edited",
+      "pageNum": 9
+    },
+    {
+      "id": "slide_10_kiosk",
+      "state": "edited",
+      "pageNum": 10
+    },
+    {
+      "id": "slide_11_workflow",
+      "state": "edited",
+      "pageNum": 11
+    },
+    {
+      "id": "slide_12_qr",
+      "state": "edited",
+      "pageNum": 12
+    },
+    {
+      "id": "slide_13_borrow",
+      "state": "edited",
+      "pageNum": 13
+    },
+    {
+      "id": "slide_14_deployment",
+      "state": "edited",
+      "pageNum": 14
+    },
+    {
+      "id": "slide_15_scripts",
+      "state": "edited",
+      "pageNum": 15
+    },
+    {
+      "id": "slide_16_security_review",
+      "state": "edited",
+      "pageNum": 16
+    },
+    {
+      "id": "slide_17_bugs",
+      "state": "edited",
+      "pageNum": 17
+    },
+    {
+      "id": "slide_18_uat",
+      "state": "edited",
+      "pageNum": 18
+    },
+    {
+      "id": "slide_19_deliverables",
+      "state": "edited",
+      "pageNum": 19
+    },
+    {
+      "id": "slide_20_achievements",
+      "state": "edited",
+      "pageNum": 20
+    },
+    {
+      "id": "slide_21_tech_stack",
+      "state": "edited",
+      "pageNum": 21
+    },
+    {
+      "id": "slide_22_limitations",
+      "state": "edited",
+      "pageNum": 22
+    },
+    {
+      "id": "slide_23_future",
+      "state": "edited",
+      "pageNum": 23
+    },
+    {
+      "id": "slide_24_demo",
+      "state": "edited",
+      "pageNum": 24
+    },
+    {
+      "id": "slide_25_local",
+      "state": "edited",
+      "pageNum": 25
+    },
+    {
+      "id": "slide_26_pi",
+      "state": "edited",
+      "pageNum": 26
+    },
+    {
+      "id": "slide_27_github",
+      "state": "edited",
+      "pageNum": 27
+    },
+    {
+      "id": "slide_28_status",
+      "state": "edited",
+      "pageNum": 28
+    },
+    {
+      "id": "slide_29_support",
+      "state": "edited",
+      "pageNum": 29
+    },
+    {
+      "id": "slide_30_conclusion",
+      "state": "edited",
+      "pageNum": 30
+    }
+  ],
+  "outline": [
+    {
+      "id": "slide_01_title",
+      "title": "SmartLocker System",
+      "summary": "Title slide introducing the SmartLocker project as a research joint venture between ISense ASV Sdn Bhd and UKM FTSM",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_02_overview",
+      "title": "Project Overview",
+      "summary": "High-level project objectives, scope, technology stack, and deployment strategy",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_03_actors",
+      "title": "System Actors & Roles",
+      "summary": "Definition of Admin, Staff, and Locker (Kiosk) actors with their responsibilities",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_04_usecases",
+      "title": "15 Use Cases Implemented",
+      "summary": "Complete list of all 15 use cases from UC-01 Login to UC-15 Extend Loan",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_05_database",
+      "title": "Database Architecture",
+      "summary": "Entity models and database schema with 15 tables and relationships",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_06_backend",
+      "title": "Backend Architecture",
+      "summary": "Service layer with 9 service classes handling authentication, items, requests, borrows, and hardware",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_07_security",
+      "title": "Authentication & Authorization",
+      "summary": "Security controls including password hashing, role-based access, anti-CSRF, and input validation",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_08_admin",
+      "title": "Admin Dashboard",
+      "summary": "Admin interface features for user management, items, requests, borrows, overdue tracking, and logs",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_09_staff",
+      "title": "Staff Interface",
+      "summary": "Staff portal for searching items, submitting requests, managing borrows, and returning items",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_10_kiosk",
+      "title": "Locker Kiosk Interface",
+      "summary": "Touchscreen-optimized kiosk UI for QR unlock and item returns with large buttons and clear instructions",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_11_workflow",
+      "title": "Request Approval Workflow",
+      "summary": "End-to-end flow from staff request submission through admin approval to QR token generation",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_12_qr",
+      "title": "QR Unlock & Hardware Integration",
+      "summary": "Secure QR token generation, validation, single-use enforcement, and hardware abstraction layer",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_13_borrow",
+      "title": "Borrow & Return Workflow",
+      "summary": "Complete item borrow and return process with status updates, extensions, and overdue tracking",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_14_deployment",
+      "title": "Deployment Architecture",
+      "summary": "Raspberry Pi deployment strategy including hardware, OS, runtime, and systemd service setup",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_15_scripts",
+      "title": "Deployment Scripts",
+      "summary": "Automated deployment scripts for publishing, installation, systemd service, and kiosk mode",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_16_security_review",
+      "title": "Security Review & Findings",
+      "summary": "Comprehensive security controls verification and compliance recommendations",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_17_bugs",
+      "title": "Bug Investigation & Edge Cases",
+      "summary": "Edge case handling including double approval prevention, race condition mitigation, and error handling",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_18_uat",
+      "title": "UAT & User Acceptance Testing",
+      "summary": "Testing results for all use cases, flows, screens, responsive design, and performance",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_19_deliverables",
+      "title": "Project Deliverables",
+      "summary": "Complete list of deliverables including source code, documentation, scripts, and GitHub repository",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_20_achievements",
+      "title": "Key Achievements",
+      "summary": "Project milestones across all 7 phases with 156 files and 15 use cases completed",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_21_tech_stack",
+      "title": "Technology Stack Summary",
+      "summary": "Technology choices including ASP.NET Core, SQLite, Razor Pages, and Raspberry Pi GPIO",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_22_limitations",
+      "title": "Known Limitations",
+      "summary": "System limitations including timezone, single location, network scope, and concurrency constraints",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_23_future",
+      "title": "Future Enhancements",
+      "summary": "Recommended improvements including notifications, barcode scanning, multi-language, and analytics",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_24_demo",
+      "title": "Demo Flow",
+      "summary": "Step-by-step walkthrough of the live demo including all major workflows",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_25_local",
+      "title": "How to Run Locally",
+      "summary": "Local development setup with exact commands, access URLs, and test credentials",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_26_pi",
+      "title": "Raspberry Pi Deployment",
+      "summary": "Production deployment steps including publish, install, start service, and kiosk setup",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_27_github",
+      "title": "GitHub Repository",
+      "summary": "Repository information including URL, branch, commit hash, and file count",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_28_status",
+      "title": "Project Status & Readiness",
+      "summary": "Final project status confirming readiness for demo and deployment",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_29_support",
+      "title": "Contact & Support",
+      "summary": "Documentation resources and support channels available in the repository",
+      "image_plan": "Use a suitable image if needed"
+    },
+    {
+      "id": "slide_30_conclusion",
+      "title": "Conclusion",
+      "summary": "Project summary with next steps for reviewing, testing, and deploying the system",
+      "image_plan": "Use a suitable image if needed"
+    }
+  ]
+}

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support & Resources</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background: #FFFFFF;
+            font-family: 'Segoe UI', sans-serif;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background: #1E293B;
+            color: #FFFFFF;
+            padding-top: 40px;
+            padding-left: 60px;
+            padding-right: 60px;
+            border-bottom: 4px solid #EA580C;
+        }
+        .header-title {
+            font-size: 48px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 10px;
+        }
+        .header-subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            color: #EA580C;
+        }
+        .content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding-top: 40px;
+            padding-left: 60px;
+            padding-right: 60px;
+        }
+        .resource {
+            background: #F8FAFC;
+            border-left: 4px solid #EA580C;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+        .resource-title {
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            color: #1E293B;
+            margin-bottom: 4px;
+        }
+        .resource-desc {
+            font-size: 13px;
+            font-weight: 400;
+            color: #334155;
+            line-height: 1.5;
+        }
+        .agent-badge {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: #1E293B;
+            color: #FFFFFF;
+            padding: 12px 16px;
+            border-left: 4px solid #EA580C;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+            min-width: 140px;
+        }
+        .agent-role {
+            font-size: 10px;
+            color: #EA580C;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header">
+            <div class="header-title">SUPPORT & RESOURCES</div>
+            <div class="header-subtitle">Documentation & Support Resources</div>
+        </div>
+        <div class="content">
+            <div>
+                <div class="resource">
+                    <div class="resource-title">README.md</div>
+                    <div class="resource-desc">Project overview and quick start guide</div>
+                </div>
+                <div class="resource">
+                    <div class="resource-title">DEPLOYMENT_GUIDE.md</div>
+                    <div class="resource-desc">Step-by-step deployment instructions</div>
+                </div>
+                <div class="resource">
+                    <div class="resource-title">SECURITY_REVIEW.md</div>
+                    <div class="resource-desc">Security controls and compliance</div>
+                </div>
+                <div class="resource">
+                    <div class="resource-title">UAT_CHECKLIST.md</div>
+                    <div class="resource-desc">Complete testing checklist</div>
+                </div>
+            </div>
+            <div>
+                <div class="resource">
+                    <div class="resource-title">Phase Reports</div>
+                    <div class="resource-desc">7 detailed phase completion reports</div>
+                </div>
+                <div class="resource">
+                    <div class="resource-title">GitHub Repository</div>
+                    <div class="resource-desc">Public repository with all code</div>
+                </div>
+                <div class="resource">
+                    <div class="resource-title">Nginx Config</div>
+                    <div class="resource-desc">Optional reverse proxy configuration</div>
+                </div>
+                <div class="resource">
+                    <div class="resource-title">mDNS Setup</div>
+                    <div class="resource-desc">Hostname configuration guide</div>
+                </div>
+                <div style="background: #10B981; color: #FFFFFF; padding: 12px; margin-top: 8px; font-weight: 700; text-align: center; font-size: 13px;">
+                    📚 Comprehensive • 📚 Well-Documented • 📚 Easy to Follow
+                </div>
+            </div>
+        </div>
+        <div class="agent-badge">
+            By Manus<br>
+            <div class="agent-role">Project<br>Team</div>
+        </div>
+    </div>
+</body>
+</html>
