@@ -1,0 +1,111 @@
+@page
+@model ReturnModel
+@{
+    ViewData["Title"] = "Return Item";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>Return Item - SmartLocker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .kiosk-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .kiosk-header {
+            margin-bottom: 30px;
+        }
+        
+        .kiosk-header h1 {
+            font-size: 36px;
+            color: #f5576c;
+            margin-bottom: 10px;
+        }
+        
+        .kiosk-header p {
+            font-size: 16px;
+            color: #666;
+        }
+        
+        .alert {
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+        
+        .alert-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 2px solid #bee5eb;
+        }
+        
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-back {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-back:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+    <div class="kiosk-container">
+        <div class="kiosk-header">
+            <h1>📥 Return Item</h1>
+            <p>Return your borrowed item</p>
+        </div>
+        
+        <div class="alert alert-info">
+            <strong>Coming in Phase 4:</strong> This feature will allow you to return items to the locker system with automatic status updates and receipt generation.
+        </div>
+        
+        <div class="btn-group">
+            <a href="/Locker" class="btn btn-back">← Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

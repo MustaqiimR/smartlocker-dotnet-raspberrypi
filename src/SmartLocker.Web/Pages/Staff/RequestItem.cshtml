@@ -1,0 +1,82 @@
+@page "{id:int}"
+@model RequestItemModel
+@{
+    ViewData["Title"] = "Request Item";
+}
+
+<div class="page-header">
+    <h1>Request Item</h1>
+    <p>Submit a request to borrow an item</p>
+</div>
+
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success">@Model.SuccessMessage</div>
+}
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
+@if (Model.Item != null)
+{
+    <div class="card">
+        <div class="card-header">
+            <h3>Item Details</h3>
+        </div>
+        <div style="padding: 20px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                <div>
+                    <strong>Item Name:</strong>
+                    <p>@Model.Item.ItemName</p>
+                </div>
+                <div>
+                    <strong>Category:</strong>
+                    <p>@Model.Item.Category?.CategoryName</p>
+                </div>
+                <div>
+                    <strong>Status:</strong>
+                    <p><span class="badge badge-info">@Model.Item.ItemStatus?.ItemStatusName</span></p>
+                </div>
+                <div>
+                    <strong>Locker:</strong>
+                    <p>@(Model.Item.Locker?.LockerName ?? "N/A")</p>
+                </div>
+                <div>
+                    <strong>Serial Number:</strong>
+                    <p>@Model.Item.SerialNumber</p>
+                </div>
+            </div>
+            @if (!string.IsNullOrEmpty(Model.Item.Description))
+            {
+                <div style="margin-top: 20px;">
+                    <strong>Description:</strong>
+                    <p>@Model.Item.Description</p>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3>Submit Request</h3>
+        </div>
+        <form method="post">
+            <input type="hidden" name="itemId" value="@Model.Item.ItemId" />
+            <div class="form-group">
+                <label for="justification">Justification (Why do you need this item?)</label>
+                <textarea id="justification" name="justification" rows="5" required></textarea>
+            </div>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary">Submit Request</button>
+                <a href="/Staff/Items/Search" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+}
+else
+{
+    <div class="alert alert-danger">Item not found.</div>
+    <a href="/Staff/Items/Search" class="btn btn-secondary">Back to Search</a>
+}

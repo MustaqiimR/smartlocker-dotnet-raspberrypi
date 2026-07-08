@@ -1,0 +1,31 @@
+# .NET
+bin/
+obj/
+.vs/
+*.user
+*.suo
+
+# Build output
+publish/
+artifacts/
+
+# Logs
+logs/
+*.log
+
+# SQLite local database
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# Local config / secrets
+appsettings.Production.json
+appsettings.Development.json
+.env
+*.secret.json
+
+# OS files
+.DS_Store
+Thumbs.db

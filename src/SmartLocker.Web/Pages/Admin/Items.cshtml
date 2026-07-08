@@ -1,0 +1,107 @@
+@page
+@model ItemsModel
+@{
+    ViewData["Title"] = "Manage Items";
+}
+
+<div class="page-header">
+    <h1>Manage Items</h1>
+    <p>Add, edit, and manage inventory items</p>
+</div>
+
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success">@Model.SuccessMessage</div>
+}
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3>Add New Item</h3>
+    </div>
+    <form method="post">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="itemName">Item Name</label>
+                <input type="text" id="itemName" name="itemName" required />
+            </div>
+            <div class="form-group">
+                <label for="categoryId">Category</label>
+                <select id="categoryId" name="categoryId" required>
+                    <option value="">Select a category</option>
+                    @foreach (var category in Model.Categories)
+                    {
+                        <option value="@category.CategoryId">@category.CategoryName</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="3"></textarea>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="lockerId">Assign to Locker</label>
+                <select id="lockerId" name="lockerId">
+                    <option value="">Select a locker</option>
+                    @foreach (var locker in Model.Lockers)
+                    {
+                        <option value="@locker.LockerId">@locker.LockerName - @locker.Location</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" name="action" value="create">Create Item</button>
+    </form>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>Items List</h3>
+    </div>
+    @if (Model.Items.Any())
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Locker</th>
+                    <th>Serial Number</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>@item.ItemName</td>
+                        <td>@item.Category?.CategoryName</td>
+                        <td><span class="badge badge-info">@item.ItemStatus?.ItemStatusName</span></td>
+                        <td>@(item.Locker?.LockerName ?? "N/A")</td>
+                        <td>@item.SerialNumber</td>
+                        <td>@item.CreatedAt.ToString("yyyy-MM-dd")</td>
+                        <td>
+                            <div class="table-actions">
+                                <a href="/Admin/Items/Edit/@item.ItemId" class="btn btn-secondary">Edit</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No items found.</p>
+    }
+</div>

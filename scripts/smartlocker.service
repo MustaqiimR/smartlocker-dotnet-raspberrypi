@@ -1,0 +1,51 @@
+[Unit]
+Description=SmartLocker Application Service
+Documentation=https://github.com/smartlocker/smartlocker
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=notify
+User=smartlocker
+WorkingDirectory=/opt/smartlocker
+ExecStart=/usr/bin/dotnet /opt/smartlocker/SmartLocker.Web.dll
+
+# Restart policy
+Restart=always
+RestartSec=10
+StartLimitInterval=60
+StartLimitBurst=3
+
+# Environment variables
+Environment="ASPNETCORE_ENVIRONMENT=Production"
+Environment="ASPNETCORE_URLS=http://0.0.0.0:5000"
+Environment="DOTNET_ENVIRONMENT=Production"
+
+# Security and isolation
+PrivateTmp=yes
+NoNewPrivileges=yes
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=smartlocker
+
+# Resource limits (optional, adjust based on Raspberry Pi)
+# MemoryLimit=256M
+# CPUQuota=50%
+
+# Timeout
+TimeoutStartSec=30
+TimeoutStopSec=10
+
+[Install]
+WantedBy=multi-user.target
+
+# Usage:
+# Enable service: sudo systemctl enable smartlocker
+# Start service: sudo systemctl start smartlocker
+# Stop service: sudo systemctl stop smartlocker
+# Restart service: sudo systemctl restart smartlocker
+# Check status: sudo systemctl status smartlocker
+# View logs: sudo journalctl -u smartlocker -f
+# View recent logs: sudo journalctl -u smartlocker -n 100

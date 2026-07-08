@@ -1,0 +1,263 @@
+@page "/unlock/{token}"
+@model UnlockModel
+@{
+    ViewData["Title"] = "Locker Unlock";
+}
+
+<div class="unlock-container">
+    @if (Model.IsSuccess)
+    {
+        <div class="unlock-success">
+            <div class="success-icon">✓</div>
+            <h1>Locker Unlocked!</h1>
+            <p class="message">@Model.Message</p>
+            
+            @if (Model.AccessToken != null)
+            {
+                <div class="unlock-details">
+                    <p><strong>Locker:</strong> @Model.AccessToken.Locker?.LockerName</p>
+                    <p><strong>Item:</strong> @Model.AccessToken.Item?.ItemName</p>
+                    <p><strong>Borrow ID:</strong> @Model.AccessToken.BorrowId</p>
+                </div>
+            }
+
+            <div class="unlock-instructions">
+                <h3>Next Steps:</h3>
+                <ol>
+                    <li>Retrieve your item from the locker</li>
+                    <li>Close the locker door</li>
+                    <li>The locker will automatically lock</li>
+                </ol>
+            </div>
+
+            <a href="/" class="btn btn-primary">Return to Home</a>
+        </div>
+    }
+    else
+    {
+        <div class="unlock-failure">
+            <div class="error-icon">✗</div>
+            <h1>Unlock Failed</h1>
+            <p class="error-message">@Model.ErrorMessage</p>
+
+            @if (!string.IsNullOrEmpty(Model.Token))
+            {
+                <div class="token-info">
+                    <p><small>Token: @Model.Token.Substring(0, Math.Min(16, Model.Token.Length))...</small></p>
+                </div>
+            }
+
+            <div class="error-reasons">
+                <h3>Possible Reasons:</h3>
+                <ul>
+                    <li>Token has expired (tokens are valid for 15 minutes)</li>
+                    <li>Token has already been used</li>
+                    <li>Token is invalid or malformed</li>
+                    <li>Locker is currently unavailable</li>
+                    <li>Borrow has been returned or cancelled</li>
+                </ul>
+            </div>
+
+            <div class="error-actions">
+                <a href="/" class="btn btn-secondary">Return to Home</a>
+                <a href="/Staff/Borrows" class="btn btn-info">View My Borrows</a>
+            </div>
+        </div>
+    }
+</div>
+
+<style type="text/css">
+    .unlock-container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 30px;
+        text-align: center;
+    }
+
+    .unlock-success {
+        background-color: #d4edda;
+        border: 2px solid #28a745;
+        border-radius: 10px;
+        padding: 40px;
+    }
+
+    .unlock-failure {
+        background-color: #f8d7da;
+        border: 2px solid #dc3545;
+        border-radius: 10px;
+        padding: 40px;
+    }
+
+    .success-icon {
+        font-size: 60px;
+        color: #28a745;
+        margin-bottom: 20px;
+    }
+
+    .error-icon {
+        font-size: 60px;
+        color: #dc3545;
+        margin-bottom: 20px;
+    }
+
+    h1 {
+        margin: 20px 0;
+        font-size: 32px;
+    }
+
+    .message {
+        font-size: 18px;
+        margin: 20px 0;
+        color: #155724;
+    }
+
+    .error-message {
+        font-size: 18px;
+        margin: 20px 0;
+        color: #721c24;
+    }
+
+    .unlock-details {
+        background-color: rgba(255, 255, 255, 0.7);
+        padding: 20px;
+        border-radius: 5px;
+        margin: 20px 0;
+        text-align: left;
+    }
+
+    .unlock-details p {
+        margin: 10px 0;
+    }
+
+    .unlock-instructions {
+        background-color: rgba(255, 255, 255, 0.7);
+        padding: 20px;
+        border-radius: 5px;
+        margin: 20px 0;
+        text-align: left;
+    }
+
+    .unlock-instructions h3 {
+        margin-top: 0;
+    }
+
+    .unlock-instructions ol {
+        padding-left: 20px;
+    }
+
+    .unlock-instructions li {
+        margin: 10px 0;
+        font-size: 16px;
+    }
+
+    .error-reasons {
+        background-color: rgba(255, 255, 255, 0.7);
+        padding: 20px;
+        border-radius: 5px;
+        margin: 20px 0;
+        text-align: left;
+    }
+
+    .error-reasons h3 {
+        margin-top: 0;
+    }
+
+    .error-reasons ul {
+        padding-left: 20px;
+    }
+
+    .error-reasons li {
+        margin: 10px 0;
+        font-size: 14px;
+    }
+
+    .token-info {
+        background-color: rgba(255, 255, 255, 0.7);
+        padding: 10px;
+        border-radius: 5px;
+        margin: 10px 0;
+    }
+
+    .error-actions {
+        margin-top: 30px;
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 12px 24px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s;
+    }
+
+    .btn-primary {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #218838;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+
+    .btn-info {
+        background-color: #17a2b8;
+        color: white;
+    }
+
+    .btn-info:hover {
+        background-color: #138496;
+    }
+
+    /* Touchscreen optimizations */
+    @@media screen and (max-width: 600px) {
+        .unlock-container {
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .unlock-success,
+        .unlock-failure {
+            padding: 30px 20px;
+        }
+
+        .success-icon,
+        .error-icon {
+            font-size: 48px;
+        }
+
+        h1 {
+            font-size: 24px;
+        }
+
+        .message,
+        .error-message {
+            font-size: 16px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            font-size: 18px;
+        }
+
+        .error-actions {
+            flex-direction: column;
+        }
+    }
+</style>

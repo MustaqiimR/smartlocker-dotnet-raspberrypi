@@ -1,0 +1,235 @@
+@page
+@model RequestsModel
+@{
+    ViewData["Title"] = "Manage Requests";
+}
+
+<div class="page-header">
+    <h1>Manage Requests</h1>
+    <p>Review and approve/reject item requests from staff members</p>
+</div>
+
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success">@Model.SuccessMessage</div>
+}
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3>Pending Requests</h3>
+        <span class="badge">@Model.PendingRequests.Count</span>
+    </div>
+    <div class="card-body">
+        @if (Model.PendingRequests.Count == 0)
+        {
+            <p class="text-muted">No pending requests at this time.</p>
+        }
+        else
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>User</th>
+                        <th>Item</th>
+                        <th>Category</th>
+                        <th>Status</th>
+                        <th>Requested</th>
+                        <th>Justification</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var request in Model.PendingRequests)
+                    {
+                        <tr>
+                            <td>@request.RequestId</td>
+                            <td>@request.User?.FullName</td>
+                            <td>@request.Item?.ItemName</td>
+                            <td>@request.Item?.Category?.CategoryName</td>
+                            <td><span class="badge badge-warning">@request.RequestStatus?.RequestStatusName</span></td>
+                            <td>@request.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                            <td>
+                                <small>@request.Justification</small>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-success" onclick="approveRequest(@request.RequestId)">Approve</button>
+                                <button class="btn btn-sm btn-danger" onclick="rejectRequest(@request.RequestId)">Reject</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+<!-- Approve Modal -->
+<div id="approveModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Approve Request</h2>
+            <span class="close" onclick="closeApproveModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to approve this request? A borrow record will be created and a QR token will be generated.</p>
+            <form method="post" id="approveForm">
+                <input type="hidden" id="approveRequestId" name="requestId" />
+                <div class="form-group">
+                    <label for="lockerId">Select Locker</label>
+                    <select id="lockerId" name="lockerId" required>
+                        <option value="">-- Choose a locker --</option>
+                        @foreach (var locker in Model.AvailableLockers)
+                        {
+                            <option value="@locker.LockerId">@locker.LockerName (@locker.LockerStatus?.LockerStatusName)</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="borrowDays">Borrow Duration (days)</label>
+                    <input type="number" id="borrowDays" name="borrowDays" value="7" min="1" max="30" required />
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeApproveModal()">Cancel</button>
+            <button class="btn btn-success" onclick="submitApprove()">Approve</button>
+        </div>
+    </div>
+</div>
+
+<!-- Reject Modal -->
+<div id="rejectModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Reject Request</h2>
+            <span class="close" onclick="closeRejectModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <form method="post" id="rejectForm">
+                <input type="hidden" id="rejectRequestId" name="requestId" />
+                <div class="form-group">
+                    <label for="rejectionReason">Rejection Reason</label>
+                    <textarea id="rejectionReason" name="rejectionReason" rows="4" placeholder="Explain why this request is being rejected..." required></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeRejectModal()">Cancel</button>
+            <button class="btn btn-danger" onclick="submitReject()">Reject</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 10% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+        border-radius: 10px;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .modal-header h2 {
+        margin: 0;
+    }
+
+    .close {
+        color: #aaa;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+    }
+
+    .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .badge-warning {
+        background-color: #ffc107;
+        color: #000;
+    }
+</style>
+
+<script>
+    function approveRequest(requestId) {
+        document.getElementById('approveRequestId').value = requestId;
+        document.getElementById('approveModal').style.display = 'block';
+    }
+
+    function closeApproveModal() {
+        document.getElementById('approveModal').style.display = 'none';
+    }
+
+    function submitApprove() {
+        document.getElementById('approveForm').action = '@Url.Page("Requests", "Approve")';
+        document.getElementById('approveForm').submit();
+    }
+
+    function rejectRequest(requestId) {
+        document.getElementById('rejectRequestId').value = requestId;
+        document.getElementById('rejectModal').style.display = 'block';
+    }
+
+    function closeRejectModal() {
+        document.getElementById('rejectModal').style.display = 'none';
+    }
+
+    function submitReject() {
+        document.getElementById('rejectForm').action = '@Url.Page("Requests", "Reject")';
+        document.getElementById('rejectForm').submit();
+    }
+
+    window.onclick = function (event) {
+        var approveModal = document.getElementById('approveModal');
+        var rejectModal = document.getElementById('rejectModal');
+        if (event.target == approveModal) {
+            approveModal.style.display = 'none';
+        }
+        if (event.target == rejectModal) {
+            rejectModal.style.display = 'none';
+        }
+    }
+</script>

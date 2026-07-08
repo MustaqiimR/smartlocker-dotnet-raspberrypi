@@ -1,0 +1,242 @@
+@page
+@model BorrowsModel
+@{
+    ViewData["Title"] = "My Active Borrows";
+}
+
+<div class="page-header">
+    <h1>My Active Borrows</h1>
+    <p>View and manage your active borrowing records</p>
+</div>
+
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success">@Model.SuccessMessage</div>
+}
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3>Active Borrows</h3>
+        <span class="badge">@Model.UserActiveBorrows.Count</span>
+    </div>
+    <div class="card-body">
+        @if (Model.UserActiveBorrows.Count == 0)
+        {
+            <p class="text-muted">You have no active borrows at this time.</p>
+        }
+        else
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Borrow ID</th>
+                        <th>Item</th>
+                        <th>Category</th>
+                        <th>Locker</th>
+                        <th>Start Date</th>
+                        <th>Due Date</th>
+                        <th>Days Left</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var borrow in Model.UserActiveBorrows)
+                    {
+                        var daysLeft = (borrow.BorrowEndDate - DateTime.UtcNow).Days;
+                        var isOverdue = daysLeft < 0;
+                        <tr>
+                            <td>@borrow.BorrowId</td>
+                            <td>@borrow.Item?.ItemName</td>
+                            <td>@borrow.Item?.Category?.CategoryName</td>
+                            <td>@borrow.Locker?.LockerName</td>
+                            <td>@borrow.BorrowStartDate.ToString("yyyy-MM-dd")</td>
+                            <td>@borrow.BorrowEndDate.ToString("yyyy-MM-dd")</td>
+                            <td>
+                                @if (isOverdue)
+                                {
+                                    <span class="badge badge-danger">Overdue by @Math.Abs(daysLeft) days</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-info">@daysLeft days</span>
+                                }
+                            </td>
+                            <td><span class="badge badge-success">@borrow.BorrowStatus?.BorrowStatusName</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-warning" onclick="extendLoan(@borrow.BorrowId)">Extend</button>
+                                <button class="btn btn-sm btn-primary" onclick="returnItem(@borrow.BorrowId)">Return</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+<!-- Extend Loan Modal -->
+<div id="extendModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Extend Loan</h2>
+            <span class="close" onclick="closeExtendModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <form method="post" id="extendForm">
+                <input type="hidden" id="extendBorrowId" name="borrowId" />
+                <div class="form-group">
+                    <label for="extensionDays">Extension (days)</label>
+                    <input type="number" id="extensionDays" name="extensionDays" value="7" min="1" max="30" required />
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeExtendModal()">Cancel</button>
+            <button class="btn btn-warning" onclick="submitExtend()">Extend</button>
+        </div>
+    </div>
+</div>
+
+<!-- Return Item Modal -->
+<div id="returnModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Return Item</h2>
+            <span class="close" onclick="closeReturnModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to return this item? The item will be marked as available and the locker will be freed.</p>
+            <form method="post" id="returnForm">
+                <input type="hidden" id="returnBorrowId" name="borrowId" />
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeReturnModal()">Cancel</button>
+            <button class="btn btn-primary" onclick="submitReturn()">Return</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 10% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+        border-radius: 10px;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .modal-header h2 {
+        margin: 0;
+    }
+
+    .close {
+        color: #aaa;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+    }
+
+    .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .badge-success {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .badge-info {
+        background-color: #17a2b8;
+        color: white;
+    }
+
+    .badge-danger {
+        background-color: #dc3545;
+        color: white;
+    }
+</style>
+
+<script>
+    function extendLoan(borrowId) {
+        document.getElementById('extendBorrowId').value = borrowId;
+        document.getElementById('extendModal').style.display = 'block';
+    }
+
+    function closeExtendModal() {
+        document.getElementById('extendModal').style.display = 'none';
+    }
+
+    function submitExtend() {
+        document.getElementById('extendForm').action = '@Url.Page("Borrows", "Extend")';
+        document.getElementById('extendForm').submit();
+    }
+
+    function returnItem(borrowId) {
+        document.getElementById('returnBorrowId').value = borrowId;
+        document.getElementById('returnModal').style.display = 'block';
+    }
+
+    function closeReturnModal() {
+        document.getElementById('returnModal').style.display = 'none';
+    }
+
+    function submitReturn() {
+        document.getElementById('returnForm').action = '@Url.Page("Borrows", "Return")';
+        document.getElementById('returnForm').submit();
+    }
+
+    window.onclick = function (event) {
+        var extendModal = document.getElementById('extendModal');
+        var returnModal = document.getElementById('returnModal');
+        if (event.target == extendModal) {
+            extendModal.style.display = 'none';
+        }
+        if (event.target == returnModal) {
+            returnModal.style.display = 'none';
+        }
+    }
+</script>

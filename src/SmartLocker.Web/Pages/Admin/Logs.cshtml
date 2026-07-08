@@ -1,0 +1,91 @@
+@page
+@model LogsModel
+@{
+    ViewData["Title"] = "View Logs";
+}
+
+<div class="page-header">
+    <h1>System Logs</h1>
+    <p>Review system audit trails and operational logs</p>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>Filter Logs</h3>
+    </div>
+    <form method="get">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="action">Action</label>
+                <input type="text" id="action" name="action" placeholder="e.g., Login, Create, Update" />
+            </div>
+            <div class="form-group">
+                <label for="resourceType">Resource Type</label>
+                <input type="text" id="resourceType" name="resourceType" placeholder="e.g., User, Item, Borrow" />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="startDate">Start Date</label>
+                <input type="date" id="startDate" name="startDate" />
+            </div>
+            <div class="form-group">
+                <label for="endDate">End Date</label>
+                <input type="date" id="endDate" name="endDate" />
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Filter</button>
+        <a href="/Admin/Logs" class="btn btn-secondary">Clear</a>
+    </form>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>Logs (@Model.Logs.Count)</h3>
+    </div>
+    @if (Model.Logs.Any())
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>User</th>
+                    <th>Action</th>
+                    <th>Resource</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var log in Model.Logs)
+                {
+                    <tr>
+                        <td>@log.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        <td>@(log.User?.Username ?? "System")</td>
+                        <td>@log.Action</td>
+                        <td>@log.ResourceType @(log.ResourceId.HasValue ? $"#{log.ResourceId}" : "")</td>
+                        <td>@log.Description</td>
+                        <td>
+                            @if (log.Status == "Success")
+                            {
+                                <span class="badge badge-success">@log.Status</span>
+                            }
+                            else if (log.Status == "Failed")
+                            {
+                                <span class="badge badge-danger">@log.Status</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-info">@log.Status</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No logs found.</p>
+    }
+</div>
