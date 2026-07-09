@@ -14,8 +14,10 @@ namespace SmartLocker.Web.Pages.Staff
         private readonly LogService _logService;
 
         public Item Item { get; set; }
+        public List<Item> Items { get; set; } = new();
         public string SuccessMessage { get; set; }
         public string ErrorMessage { get; set; }
+        public string SearchTerm { get; set; }
 
         public RequestItemModel(ItemService itemService, RequestService requestService, LogService logService)
         {
@@ -24,9 +26,24 @@ namespace SmartLocker.Web.Pages.Staff
             _logService = logService;
         }
 
-        public void OnGet(int id)
+        public void OnGet(int? id, string search = "")
         {
-            Item = _itemService.GetItemById(id);
+            SearchTerm = search;
+            
+            if (id.HasValue && id.Value > 0)
+            {
+                // Show specific item
+                Item = _itemService.GetItemById(id.Value);
+            }
+            else
+            {
+                // Show list of available items
+                Items = _itemService.GetAvailableItems();
+                if (!string.IsNullOrEmpty(search))
+                {
+                    Items = Items.Where(i => i.ItemName.Contains(search, StringComparison.OrdinalIgnoreCase)).ToList();
+                }
+            }
         }
 
         public IActionResult OnPost(int itemId, string justification)

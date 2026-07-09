@@ -1,4 +1,4 @@
-@page "{id:int}"
+@page "{id?}"
 @model RequestItemModel
 @{
     ViewData["Title"] = "Request Item";
@@ -75,8 +75,46 @@
         </form>
     </div>
 }
+else if (Model.Items.Count > 0)
+{
+    <div class="card">
+        <div class="card-header">
+            <h3>Available Items</h3>
+        </div>
+        <div style="padding: 20px;">
+            <form method="get" style="margin-bottom: 20px;">
+                <div class="form-group">
+                    <input type="text" name="search" placeholder="Search items..." value="@Model.SearchTerm" />
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Item Name</th>
+                        <th>Category</th>
+                        <th>Serial Number</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Items)
+                    {
+                        <tr>
+                            <td>@item.ItemName</td>
+                            <td>@item.Category?.CategoryName</td>
+                            <td>@item.SerialNumber</td>
+                            <td>
+                                <a href="/Staff/RequestItem?id=@item.ItemId" class="btn btn-sm btn-primary">Request</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
 else
 {
-    <div class="alert alert-danger">Item not found.</div>
-    <a href="/Staff/Items/Search" class="btn btn-secondary">Back to Search</a>
+    <div class="alert alert-danger">No items found.</div>
 }
