@@ -1,0 +1,129 @@
+@page
+@model ManageRequestsModel
+@{
+    ViewData["Title"] = "Manage Requests";
+}
+
+<div class="page-header">
+    <h1>Manage Requests</h1>
+    <p>View and manage your item requests</p>
+</div>
+
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success">@Model.SuccessMessage</div>
+}
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3>My Requests</h3>
+        <span class="badge">@Model.UserRequests.Count</span>
+    </div>
+    <div class="card-body">
+        @if (Model.UserRequests.Count == 0)
+        {
+            <p class="text-muted">You have no requests at this time.</p>
+        }
+        else
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Item</th>
+                        <th>Category</th>
+                        <th>Status</th>
+                        <th>Requested Date</th>
+                        <th>Justification</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var request in Model.UserRequests)
+                    {
+                        <tr>
+                            <td>@request.RequestId</td>
+                            <td>@request.Item?.ItemName</td>
+                            <td>@request.Item?.Category?.CategoryName</td>
+                            <td><span class="badge badge-@GetStatusBadgeClass(request.RequestStatus?.RequestStatusName)">@request.RequestStatus?.RequestStatusName</span></td>
+                            <td>@request.CreatedAt.ToString("yyyy-MM-dd")</td>
+                            <td>@request.Justification</td>
+                            <td>
+                                @if (request.RequestStatus?.RequestStatusName == "Pending")
+                                {
+                                    <button class="btn btn-sm btn-danger" onclick="cancelRequest(@request.RequestId)">Cancel</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+<style>
+    .badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .badge-primary {
+        background-color: #667eea;
+        color: white;
+    }
+
+    .badge-success {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .badge-warning {
+        background-color: #ffc107;
+        color: #333;
+    }
+
+    .badge-danger {
+        background-color: #dc3545;
+        color: white;
+    }
+</style>
+
+<script>
+    function cancelRequest(requestId) {
+        if (confirm('Are you sure you want to cancel this request?')) {
+            // Submit form to cancel request
+            var form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '@Url.Page("ManageRequests", "Cancel")';
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'requestId';
+            input.value = requestId;
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+</script>
+
+@functions {
+    private string GetStatusBadgeClass(string status)
+    {
+        return status switch
+        {
+            "Pending" => "warning",
+            "Approved" => "success",
+            "Rejected" => "danger",
+            _ => "primary"
+        };
+    }
+}

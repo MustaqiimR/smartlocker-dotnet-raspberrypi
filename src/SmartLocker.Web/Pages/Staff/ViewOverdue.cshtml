@@ -1,0 +1,207 @@
+@page
+@model ViewOverdueModel
+@{
+    ViewData["Title"] = "Overdue Items";
+}
+
+<div class="page-header">
+    <h1>Overdue Items</h1>
+    <p>View your overdue borrowed items</p>
+</div>
+
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success">@Model.SuccessMessage</div>
+}
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3>Overdue Borrows</h3>
+        <span class="badge badge-danger">@Model.OverdueBorrows.Count</span>
+    </div>
+    <div class="card-body">
+        @if (Model.OverdueBorrows.Count == 0)
+        {
+            <p class="text-muted">You have no overdue items at this time.</p>
+        }
+        else
+        {
+            <div class="alert alert-warning">
+                <strong>Warning:</strong> You have @Model.OverdueBorrows.Count overdue item(s). Please return them as soon as possible to avoid penalties.
+            </div>
+            
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Borrow ID</th>
+                        <th>Item</th>
+                        <th>Category</th>
+                        <th>Locker</th>
+                        <th>Start Date</th>
+                        <th>Due Date</th>
+                        <th>Overdue By</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var borrow in Model.OverdueBorrows)
+                    {
+                        var daysOverdue = (DateTime.UtcNow - borrow.BorrowEndDate).Days;
+                        <tr>
+                            <td>@borrow.BorrowId</td>
+                            <td>@borrow.Item?.ItemName</td>
+                            <td>@borrow.Item?.Category?.CategoryName</td>
+                            <td>@borrow.Locker?.LockerName</td>
+                            <td>@borrow.BorrowStartDate.ToString("yyyy-MM-dd")</td>
+                            <td>@borrow.BorrowEndDate.ToString("yyyy-MM-dd")</td>
+                            <td><span class="badge badge-danger">@daysOverdue days</span></td>
+                            <td><span class="badge badge-danger">@borrow.BorrowStatus?.BorrowStatusName</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-primary" onclick="returnItem(@borrow.BorrowId)">Return Now</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+<!-- Return Item Modal -->
+<div id="returnModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Return Overdue Item</h2>
+            <span class="close" onclick="closeReturnModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to return this overdue item? Please ensure the item is in good condition.</p>
+            <form method="post" id="returnForm">
+                <input type="hidden" id="returnBorrowId" name="borrowId" />
+                <div class="form-group">
+                    <label for="notes">Return Notes (Optional)</label>
+                    <textarea id="notes" name="notes" rows="3" placeholder="Any notes about the item condition..."></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeReturnModal()">Cancel</button>
+            <button class="btn btn-primary" onclick="submitReturn()">Return Item</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 10% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+        border-radius: 10px;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .modal-header h2 {
+        margin: 0;
+    }
+
+    .close {
+        color: #aaa;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+    }
+
+    .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .badge-danger {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: #333;
+        font-weight: 500;
+    }
+
+    .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-family: inherit;
+    }
+</style>
+
+<script>
+    function returnItem(borrowId) {
+        document.getElementById('returnBorrowId').value = borrowId;
+        document.getElementById('returnModal').style.display = 'block';
+    }
+
+    function closeReturnModal() {
+        document.getElementById('returnModal').style.display = 'none';
+    }
+
+    function submitReturn() {
+        document.getElementById('returnForm').action = '@Url.Page("ViewOverdue", "Return")';
+        document.getElementById('returnForm').submit();
+    }
+
+    window.onclick = function (event) {
+        var returnModal = document.getElementById('returnModal');
+        if (event.target == returnModal) {
+            returnModal.style.display = 'none';
+        }
+    }
+</script>
