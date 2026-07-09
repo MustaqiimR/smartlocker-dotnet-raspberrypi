@@ -15,6 +15,7 @@ namespace SmartLocker.Web.Pages.Admin
 
         public List<User> Users { get; set; } = new();
         public List<Role> Roles { get; set; } = new();
+        public User EditingUser { get; set; }
         public string SuccessMessage { get; set; }
         public string ErrorMessage { get; set; }
 
@@ -25,8 +26,12 @@ namespace SmartLocker.Web.Pages.Admin
             _context = context;
         }
 
-        public void OnGet()
+        public void OnGet(int? editId)
         {
+            if (editId.HasValue)
+            {
+                EditingUser = _userService.GetUserById(editId.Value);
+            }
             LoadData();
         }
 
@@ -47,6 +52,35 @@ namespace SmartLocker.Web.Pages.Admin
                         var user = _userService.CreateUser(username, password, fullName, email, roleId);
                         _logService.LogAction(currentUserId, "Create", "User", user.UserId, $"Created user: {username}", "Success");
                         SuccessMessage = $"User '{username}' created successfully.";
+                    }
+                }
+                else if (action == "edit")
+                {
+                    if (string.IsNullOrEmpty(fullName) || string.IsNullOrEmpty(email))
+                    {
+                        ErrorMessage = "Full name and email are required.";
+                    }
+                    else
+                    {
+                        var user = _userService.GetUserById(userId);
+                        if (user != null)
+                        {
+                            user.FullName = fullName;
+                            user.Email = email;
+                            if (roleId > 0)
+                            {
+                                user.RoleId = roleId;
+                            }
+                            _context.Users.Update(user);
+                            _context.SaveChanges();
+                            _logService.LogAction(currentUserId, "Edit", "User", userId, $"Updated user: {user.Username}", "Success");
+                            SuccessMessage = $"User '{user.Username}' updated successfully.";
+                            EditingUser = null;
+                        }
+                        else
+                        {
+                            ErrorMessage = "User not found.";
+                        }
                     }
                 }
                 else if (action == "disable")
