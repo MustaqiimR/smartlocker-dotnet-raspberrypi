@@ -99,7 +99,6 @@
                         <td>@(user.LastLogin?.ToString("yyyy-MM-dd HH:mm") ?? "Never")</td>
                         <td>
                             <div class="table-actions">
-                                <a href="/Admin/Users/Edit/@user.UserId" class="btn btn-secondary">Edit</a>
                                 @if (user.IsActive)
                                 {
                                     <form method="post" style="display:inline;">

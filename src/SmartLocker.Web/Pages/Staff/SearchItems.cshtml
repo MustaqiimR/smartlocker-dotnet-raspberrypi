@@ -86,7 +86,7 @@
                             <div class="table-actions">
                                 @if (item.ItemStatus?.ItemStatusName == "Available")
                                 {
-                                    <a href="/Staff/Items/Request/@item.ItemId" class="btn btn-primary">Request</a>
+                                    <a href="/Staff/RequestItem?id=@item.ItemId" class="btn btn-primary">Request</a>
                                 }
                                 else
                                 {
