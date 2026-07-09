@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Overview</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background: #FFFFFF;
+            font-family: 'Segoe UI', sans-serif;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background: #1E293B;
+            color: #FFFFFF;
+            padding-top: 40px;
+            padding-left: 60px;
+            padding-right: 60px;
+            border-bottom: 4px solid #EA580C;
+        }
+        .header-title {
+            font-size: 48px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 10px;
+        }
+        .header-subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            color: #EA580C;
+        }
+        .content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding-top: 40px;
+            padding-left: 60px;
+            padding-right: 60px;
+        }
+        .section {
+            display: flex;
+            flex-direction: column;
+        }
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            color: #1E293B;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .section-content {
+            font-size: 16px;
+            font-weight: 400;
+            color: #334155;
+            line-height: 1.8;
+        }
+        .item {
+            margin-bottom: 12px;
+            padding-left: 20px;
+            position: relative;
+        }
+        .item:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #EA580C;
+            font-weight: 700;
+        }
+        .agent-badge {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: #1E293B;
+            color: #FFFFFF;
+            padding: 12px 16px;
+            border-left: 4px solid #EA580C;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+            min-width: 140px;
+        }
+        .agent-role {
+            font-size: 10px;
+            color: #EA580C;
+            margin-top: 4px;
+        }
+        .status-badge {
+            display: inline-block;
+            background: #10B981;
+            color: #FFFFFF;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: 20px;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header">
+            <div class="header-title">PROJECT OVERVIEW</div>
+            <div class="header-subtitle">Objectives, Scope & Technology</div>
+        </div>
+        <div class="content">
+            <div class="section">
+                <div class="section-title">Objective</div>
+                <div class="section-content">
+                    <div class="item">Build a comprehensive locker management system for on-premise deployment on Raspberry Pi</div>
+                    <div class="item">Support item borrowing, locker access control, and QR unlock functionality</div>
+                    <div class="item">Provide role-based web interfaces for Admin and Staff management</div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-title">Scope</div>
+                <div class="section-content">
+                    <div class="item">Item inventory management with categorization</div>
+                    <div class="item">Request approval workflow with QR token generation</div>
+                    <div class="item">Borrow/return lifecycle with overdue tracking</div>
+                    <div class="item">Audit logging and system monitoring</div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-title">Technology Stack</div>
+                <div class="section-content">
+                    <div class="item">Backend: ASP.NET Core 8.0</div>
+                    <div class="item">Frontend: Razor Pages with Bootstrap</div>
+                    <div class="item">Database: SQLite with Entity Framework Core</div>
+                    <div class="item">Deployment: Raspberry Pi OS 64-bit</div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-title">Deployment</div>
+                <div class="section-content">
+                    <div class="item">Local network touchscreen kiosk interface</div>
+                    <div class="item">Admin web portal for system management</div>
+                    <div class="item">Staff web portal for requests and borrows</div>
+                    <div class="item">Systemd service for auto-start on boot</div>
+                    <div class="status-badge">✓ Complete & Ready for Demo</div>
+                </div>
+            </div>
+        </div>
+        <div class="agent-badge">
+            By Zara<br>
+            <div class="agent-role">Researcher/<br>Requirement Analyst</div>
+        </div>
+    </div>
+</body>
+</html>

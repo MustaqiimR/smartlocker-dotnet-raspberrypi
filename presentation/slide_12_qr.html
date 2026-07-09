@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Unlock & Hardware Integration</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background: #FFFFFF;
+            font-family: 'Segoe UI', sans-serif;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background: #1E293B;
+            color: #FFFFFF;
+            padding-top: 40px;
+            padding-left: 60px;
+            padding-right: 60px;
+            border-bottom: 4px solid #EA580C;
+        }
+        .header-title {
+            font-size: 48px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 10px;
+        }
+        .header-subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            color: #EA580C;
+        }
+        .content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding-top: 40px;
+            padding-left: 60px;
+            padding-right: 60px;
+        }
+        .feature {
+            background: #F8FAFC;
+            border-left: 4px solid #EA580C;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+        .feature-title {
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            color: #1E293B;
+            margin-bottom: 4px;
+        }
+        .feature-desc {
+            font-size: 13px;
+            font-weight: 400;
+            color: #334155;
+            line-height: 1.5;
+        }
+        .agent-badge {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: #1E293B;
+            color: #FFFFFF;
+            padding: 12px 16px;
+            border-left: 4px solid #EA580C;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+            min-width: 140px;
+        }
+        .agent-role {
+            font-size: 10px;
+            color: #EA580C;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header">
+            <div class="header-title">QR UNLOCK & HARDWARE INTEGRATION</div>
+            <div class="header-subtitle">QR Token Security & Hardware Control</div>
+        </div>
+        <div class="content">
+            <div>
+                <div class="feature">
+                    <div class="feature-title">Token Generation</div>
+                    <div class="feature-desc">Cryptographically secure RNG (256-bit)</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-title">Token Expiry</div>
+                    <div class="feature-desc">10-minute window</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-title">Single-Use</div>
+                    <div class="feature-desc">Token marked as used after first validation</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-title">Failed Attempt Lockout</div>
+                    <div class="feature-desc">5 failed attempts trigger lockout</div>
+                </div>
+            </div>
+            <div>
+                <div class="feature">
+                    <div class="feature-title">Hardware Abstraction</div>
+                    <div class="feature-desc">ILockerHardwareService interface</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-title">Mock Mode</div>
+                    <div class="feature-desc">Simulates hardware for development</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-title">GPIO Mode</div>
+                    <div class="feature-desc">Real relay control on Raspberry Pi</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-title">Logging</div>
+                    <div class="feature-desc">All unlock attempts logged for audit trail</div>
+                </div>
+                <div style="background: #10B981; color: #FFFFFF; padding: 12px; margin-top: 8px; font-weight: 700; text-align: center; font-size: 13px;">
+                    ✓ Secure • ✓ Flexible • ✓ Auditable
+                </div>
+            </div>
+        </div>
+        <div class="agent-badge">
+            By Abu<br>
+            <div class="agent-role">Backend<br>Developer</div>
+        </div>
+    </div>
+</body>
+</html>

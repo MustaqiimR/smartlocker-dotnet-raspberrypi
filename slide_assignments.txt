@@ -1,0 +1,50 @@
+SLIDE ASSIGNMENTS BY AGENT
+==========================
+
+ZARA (Researcher/Requirement Analyst):
+- Slide 02: Project Overview
+- Slide 03: System Actors & Roles
+- Slide 04: 15 Use Cases Implemented
+- Slide 22: Known Limitations
+- Slide 23: Future Enhancements
+- Slide 29: Contact & Support
+
+ABU (Backend Developer):
+- Slide 05: Database Architecture
+- Slide 06: Backend Architecture
+- Slide 07: Authentication & Authorization
+- Slide 12: QR Unlock & Hardware Integration
+
+SITI (Frontend/Kiosk UI Developer):
+- Slide 08: Admin Dashboard
+- Slide 09: Staff Interface
+- Slide 10: Locker Kiosk Interface
+
+ALI (Fullstack Integrator):
+- Slide 11: Request Approval Workflow
+- Slide 13: Borrow & Return Workflow
+- Slide 19: Project Deliverables
+- Slide 20: Key Achievements
+- Slide 27: GitHub Repository
+- Slide 28: Project Status & Readiness
+- Slide 30: Conclusion
+
+RAFI (Raspberry Pi/Linux Deployment Engineer):
+- Slide 14: Deployment Architecture
+- Slide 15: Deployment Scripts
+- Slide 25: How to Run Locally
+- Slide 26: Raspberry Pi Deployment
+
+AMIR (Security & Consistency Reviewer):
+- Slide 16: Security Review & Findings
+
+IMAN (Bug Investigator):
+- Slide 17: Bug Investigation & Edge Cases
+
+MAYA (UAT + Frontend Bug Hunter):
+- Slide 18: UAT & User Acceptance Testing
+- Slide 24: Demo Flow
+
+SHARED:
+- Slide 01: Title Slide (Project-wide)
+- Slide 21: Technology Stack Summary (Ali)

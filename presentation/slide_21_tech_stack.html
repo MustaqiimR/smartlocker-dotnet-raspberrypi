@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technology Stack Summary</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background: #FFFFFF;
+            font-family: 'Segoe UI', sans-serif;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background: #1E293B;
+            color: #FFFFFF;
+            padding-top: 40px;
+            padding-left: 60px;
+            padding-right: 60px;
+            border-bottom: 4px solid #EA580C;
+        }
+        .header-title {
+            font-size: 48px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 10px;
+        }
+        .header-subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            color: #EA580C;
+        }
+        .content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding-top: 40px;
+            padding-left: 60px;
+            padding-right: 60px;
+        }
+        .tech {
+            background: #F8FAFC;
+            border-left: 4px solid #EA580C;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+        .tech-category {
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            color: #1E293B;
+            margin-bottom: 4px;
+        }
+        .tech-detail {
+            font-size: 13px;
+            font-weight: 400;
+            color: #334155;
+            line-height: 1.5;
+        }
+        .agent-badge {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: #1E293B;
+            color: #FFFFFF;
+            padding: 12px 16px;
+            border-left: 4px solid #EA580C;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+            min-width: 140px;
+        }
+        .agent-role {
+            font-size: 10px;
+            color: #EA580C;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header">
+            <div class="header-title">TECHNOLOGY STACK SUMMARY</div>
+            <div class="header-subtitle">Technology Stack & Architecture</div>
+        </div>
+        <div class="content">
+            <div>
+                <div class="tech">
+                    <div class="tech-category">Backend</div>
+                    <div class="tech-detail">ASP.NET Core 8.0</div>
+                </div>
+                <div class="tech">
+                    <div class="tech-category">Frontend</div>
+                    <div class="tech-detail">Razor Pages with Bootstrap CSS</div>
+                </div>
+                <div class="tech">
+                    <div class="tech-category">Database</div>
+                    <div class="tech-detail">SQLite with Entity Framework Core</div>
+                </div>
+                <div class="tech">
+                    <div class="tech-category">Authentication</div>
+                    <div class="tech-detail">Cookie-based with BCrypt hashing</div>
+                </div>
+            </div>
+            <div>
+                <div class="tech">
+                    <div class="tech-category">Hardware</div>
+                    <div class="tech-detail">Raspberry Pi GPIO abstraction layer</div>
+                </div>
+                <div class="tech">
+                    <div class="tech-category">Deployment</div>
+                    <div class="tech-detail">systemd service on Raspberry Pi OS 64-bit</div>
+                </div>
+                <div class="tech">
+                    <div class="tech-category">UI Framework</div>
+                    <div class="tech-detail">Bootstrap 5 for responsive design</div>
+                </div>
+                <div class="tech">
+                    <div class="tech-category">Validation</div>
+                    <div class="tech-detail">HTML5 client-side + server-side validation</div>
+                </div>
+                <div style="background: #10B981; color: #FFFFFF; padding: 12px; margin-top: 8px; font-weight: 700; text-align: center; font-size: 13px;">
+                    Modern • Secure • Scalable Stack
+                </div>
+            </div>
+        </div>
+        <div class="agent-badge">
+            By Ali<br>
+            <div class="agent-role">Fullstack<br>Integrator</div>
+        </div>
+    </div>
+</body>
+</html>

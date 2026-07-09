@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Review & Findings</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background: #FFFFFF;
+            font-family: 'Segoe UI', sans-serif;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background: #1E293B;
+            color: #FFFFFF;
+            padding-top: 40px;
+            padding-left: 60px;
+            padding-right: 60px;
+            border-bottom: 4px solid #EA580C;
+        }
+        .header-title {
+            font-size: 48px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 10px;
+        }
+        .header-subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            color: #EA580C;
+        }
+        .content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding-top: 40px;
+            padding-left: 60px;
+            padding-right: 60px;
+        }
+        .control {
+            background: #F8FAFC;
+            border-left: 4px solid #10B981;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+        .control-title {
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            color: #10B981;
+            margin-bottom: 4px;
+        }
+        .control-desc {
+            font-size: 13px;
+            font-weight: 400;
+            color: #334155;
+            line-height: 1.5;
+        }
+        .agent-badge {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: #1E293B;
+            color: #FFFFFF;
+            padding: 12px 16px;
+            border-left: 4px solid #EA580C;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+            min-width: 140px;
+        }
+        .agent-role {
+            font-size: 10px;
+            color: #EA580C;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header">
+            <div class="header-title">SECURITY REVIEW & FINDINGS</div>
+            <div class="header-subtitle">Security Controls & Compliance</div>
+        </div>
+        <div class="content">
+            <div>
+                <div class="control">
+                    <div class="control-title">✓ Password Security</div>
+                    <div class="control-desc">BCrypt hashing, no plaintext storage</div>
+                </div>
+                <div class="control">
+                    <div class="control-title">✓ Authorization</div>
+                    <div class="control-desc">Role-based access control verified</div>
+                </div>
+                <div class="control">
+                    <div class="control-title">✓ QR Token Security</div>
+                    <div class="control-desc">Cryptographically secure, single-use, time-limited</div>
+                </div>
+                <div class="control">
+                    <div class="control-title">✓ Input Validation</div>
+                    <div class="control-desc">All forms validated server-side</div>
+                </div>
+            </div>
+            <div>
+                <div class="control">
+                    <div class="control-title">✓ Anti-CSRF</div>
+                    <div class="control-desc">Anti-forgery tokens on all POST operations</div>
+                </div>
+                <div class="control">
+                    <div class="control-title">✓ Audit Logging</div>
+                    <div class="control-desc">All actions logged with user, action, resource, timestamp</div>
+                </div>
+                <div class="control">
+                    <div class="control-title">✓ Error Handling</div>
+                    <div class="control-desc">No sensitive data exposed in error messages</div>
+                </div>
+                <div style="background: #10B981; color: #FFFFFF; padding: 12px; margin-top: 8px; font-weight: 700; text-align: center; font-size: 13px;">
+                    7/7 Controls Verified • Production-Ready
+                </div>
+            </div>
+        </div>
+        <div class="agent-badge">
+            By Amir<br>
+            <div class="agent-role">Security &<br>Consistency Reviewer</div>
+        </div>
+    </div>
+</body>
+</html>

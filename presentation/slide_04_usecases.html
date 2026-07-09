@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>15 Use Cases Implemented</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background: #FFFFFF;
+            font-family: 'Segoe UI', sans-serif;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background: #1E293B;
+            color: #FFFFFF;
+            padding-top: 40px;
+            padding-left: 60px;
+            padding-right: 60px;
+            border-bottom: 4px solid #EA580C;
+        }
+        .header-title {
+            font-size: 48px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 10px;
+        }
+        .header-subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            color: #EA580C;
+        }
+        .content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding-top: 40px;
+            padding-left: 60px;
+            padding-right: 60px;
+        }
+        .column {
+            display: flex;
+            flex-direction: column;
+        }
+        .usecase {
+            font-size: 15px;
+            font-weight: 400;
+            color: #334155;
+            line-height: 2.0;
+            padding-left: 20px;
+            position: relative;
+        }
+        .usecase:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #EA580C;
+            font-weight: 700;
+        }
+        .usecase-code {
+            font-weight: 700;
+            color: #1E293B;
+            font-family: 'Courier New', monospace;
+        }
+        .agent-badge {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: #1E293B;
+            color: #FFFFFF;
+            padding: 12px 16px;
+            border-left: 4px solid #EA580C;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+            min-width: 140px;
+        }
+        .agent-role {
+            font-size: 10px;
+            color: #EA580C;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header">
+            <div class="header-title">15 USE CASES IMPLEMENTED</div>
+            <div class="header-subtitle">Complete Coverage of System Functionality</div>
+        </div>
+        <div class="content">
+            <div class="column">
+                <div class="usecase"><span class="usecase-code">UC-01</span> Login</div>
+                <div class="usecase"><span class="usecase-code">UC-02</span> Dashboard</div>
+                <div class="usecase"><span class="usecase-code">UC-03</span> Manage User</div>
+                <div class="usecase"><span class="usecase-code">UC-04</span> Manage Item</div>
+                <div class="usecase"><span class="usecase-code">UC-05</span> View Logs</div>
+                <div class="usecase"><span class="usecase-code">UC-06</span> Manage Borrow</div>
+                <div class="usecase"><span class="usecase-code">UC-07</span> Return Item</div>
+                <div class="usecase"><span class="usecase-code">UC-08</span> View Overdue</div>
+            </div>
+            <div class="column">
+                <div class="usecase"><span class="usecase-code">UC-09</span> Manage Request</div>
+                <div class="usecase"><span class="usecase-code">UC-10</span> Approve Request</div>
+                <div class="usecase"><span class="usecase-code">UC-11</span> Reject Request</div>
+                <div class="usecase"><span class="usecase-code">UC-12</span> Search Item</div>
+                <div class="usecase"><span class="usecase-code">UC-13</span> Request Item</div>
+                <div class="usecase"><span class="usecase-code">UC-14</span> Borrow Item</div>
+                <div class="usecase"><span class="usecase-code">UC-15</span> Extend Loan</div>
+                <div style="margin-top: 20px; padding: 15px; background: #10B981; color: #FFFFFF; font-weight: 700; font-size: 14px; text-align: center;">✓ All Use Cases Complete</div>
+            </div>
+        </div>
+        <div class="agent-badge">
+            By Zara<br>
+            <div class="agent-role">Researcher/<br>Requirement Analyst</div>
+        </div>
+    </div>
+</body>
+</html>

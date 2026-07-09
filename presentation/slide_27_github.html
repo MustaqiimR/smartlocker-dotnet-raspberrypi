@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Repository</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background: #FFFFFF;
+            font-family: 'Segoe UI', sans-serif;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background: #1E293B;
+            color: #FFFFFF;
+            padding-top: 40px;
+            padding-left: 60px;
+            padding-right: 60px;
+            border-bottom: 4px solid #EA580C;
+        }
+        .header-title {
+            font-size: 48px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 10px;
+        }
+        .header-subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            color: #EA580C;
+        }
+        .content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding-top: 40px;
+            padding-left: 60px;
+            padding-right: 60px;
+        }
+        .repo-info {
+            background: #F8FAFC;
+            border-left: 4px solid #EA580C;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+        .repo-label {
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            color: #1E293B;
+            margin-bottom: 4px;
+        }
+        .repo-value {
+            font-size: 13px;
+            font-weight: 400;
+            color: #334155;
+            line-height: 1.5;
+            word-break: break-all;
+        }
+        .agent-badge {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: #1E293B;
+            color: #FFFFFF;
+            padding: 12px 16px;
+            border-left: 4px solid #EA580C;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+            min-width: 140px;
+        }
+        .agent-role {
+            font-size: 10px;
+            color: #EA580C;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header">
+            <div class="header-title">GITHUB REPOSITORY</div>
+            <div class="header-subtitle">Public Repository & Access</div>
+        </div>
+        <div class="content">
+            <div>
+                <div class="repo-info">
+                    <div class="repo-label">Repository URL</div>
+                    <div class="repo-value">https://github.com/MustaqiimR/smartlocker-dotnet-raspberrypi</div>
+                </div>
+                <div class="repo-info">
+                    <div class="repo-label">Commit Hash</div>
+                    <div class="repo-value">1122a289f2e69e0808865845c62e168dc5736425</div>
+                </div>
+                <div class="repo-info">
+                    <div class="repo-label">Branch</div>
+                    <div class="repo-value">master</div>
+                </div>
+                <div class="repo-info">
+                    <div class="repo-label">Files</div>
+                    <div class="repo-value">156 files committed</div>
+                </div>
+            </div>
+            <div>
+                <div class="repo-info">
+                    <div class="repo-label">Clone Command</div>
+                    <div class="repo-value">git clone https://github.com/MustaqiimR/smartlocker-dotnet-raspberrypi.git</div>
+                </div>
+                <div class="repo-info">
+                    <div class="repo-label">Description</div>
+                    <div class="repo-value">Research project joint venture between ISense ASV Sdn Bhd and UKM FTSM</div>
+                </div>
+                <div class="repo-info">
+                    <div class="repo-label">Documentation</div>
+                    <div class="repo-value">Complete with deployment guides and UAT checklists</div>
+                </div>
+                <div style="background: #10B981; color: #FFFFFF; padding: 12px; margin-top: 8px; font-weight: 700; text-align: center; font-size: 13px;">
+                    ✓ Public • ✓ Complete • ✓ Ready to Clone
+                </div>
+            </div>
+        </div>
+        <div class="agent-badge">
+            By Ali<br>
+            <div class="agent-role">Fullstack<br>Integrator</div>
+        </div>
+    </div>
+</body>
+</html>

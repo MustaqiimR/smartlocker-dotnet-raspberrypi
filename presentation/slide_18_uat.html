@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UAT & User Acceptance Testing</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background: #FFFFFF;
+            font-family: 'Segoe UI', sans-serif;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background: #1E293B;
+            color: #FFFFFF;
+            padding-top: 40px;
+            padding-left: 60px;
+            padding-right: 60px;
+            border-bottom: 4px solid #EA580C;
+        }
+        .header-title {
+            font-size: 48px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 10px;
+        }
+        .header-subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            color: #EA580C;
+        }
+        .content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding-top: 40px;
+            padding-left: 60px;
+            padding-right: 60px;
+        }
+        .test {
+            background: #F8FAFC;
+            border-left: 4px solid #10B981;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+        .test-title {
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            color: #10B981;
+            margin-bottom: 4px;
+        }
+        .test-desc {
+            font-size: 13px;
+            font-weight: 400;
+            color: #334155;
+            line-height: 1.5;
+        }
+        .agent-badge {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: #1E293B;
+            color: #FFFFFF;
+            padding: 12px 16px;
+            border-left: 4px solid #EA580C;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+            min-width: 140px;
+        }
+        .agent-role {
+            font-size: 10px;
+            color: #EA580C;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header">
+            <div class="header-title">UAT & USER ACCEPTANCE TESTING</div>
+            <div class="header-subtitle">Testing & Quality Assurance Results</div>
+        </div>
+        <div class="content">
+            <div>
+                <div class="test">
+                    <div class="test-title">✓ All 15 Use Cases</div>
+                    <div class="test-desc">Tested and validated</div>
+                </div>
+                <div class="test">
+                    <div class="test-title">✓ All 8 End-to-End Flows</div>
+                    <div class="test-desc">Passed successfully</div>
+                </div>
+                <div class="test">
+                    <div class="test-title">✓ Admin Screens</div>
+                    <div class="test-desc">Dashboard, Users, Items, Requests, Borrows, Overdue, Logs</div>
+                </div>
+                <div class="test">
+                    <div class="test-title">✓ Staff Screens</div>
+                    <div class="test-desc">Dashboard, Search, Request, Borrows</div>
+                </div>
+            </div>
+            <div>
+                <div class="test">
+                    <div class="test-title">✓ Kiosk Screens</div>
+                    <div class="test-desc">Home, QR Unlock, Return</div>
+                </div>
+                <div class="test">
+                    <div class="test-title">✓ Responsive Design</div>
+                    <div class="test-desc">Desktop, tablet, mobile, kiosk</div>
+                </div>
+                <div class="test">
+                    <div class="test-title">✓ Error Handling</div>
+                    <div class="test-desc">Graceful error messages, no crashes</div>
+                </div>
+                <div class="test">
+                    <div class="test-title">✓ Performance</div>
+                    <div class="test-desc">All pages load < 3 seconds</div>
+                </div>
+                <div style="background: #10B981; color: #FFFFFF; padding: 12px; margin-top: 8px; font-weight: 700; text-align: center; font-size: 13px;">
+                    ✓ UAT PASSED • Ready for Production
+                </div>
+            </div>
+        </div>
+        <div class="agent-badge">
+            By Maya<br>
+            <div class="agent-role">UAT + Frontend<br>Bug Hunter</div>
+        </div>
+    </div>
+</body>
+</html>

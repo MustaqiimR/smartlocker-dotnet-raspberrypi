@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Known Limitations</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background: #FFFFFF;
+            font-family: 'Segoe UI', sans-serif;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background: #1E293B;
+            color: #FFFFFF;
+            padding-top: 40px;
+            padding-left: 60px;
+            padding-right: 60px;
+            border-bottom: 4px solid #EA580C;
+        }
+        .header-title {
+            font-size: 48px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 10px;
+        }
+        .header-subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            color: #EA580C;
+        }
+        .content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding-top: 40px;
+            padding-left: 60px;
+            padding-right: 60px;
+        }
+        .limitation {
+            background: #FEF3C7;
+            border-left: 4px solid #F59E0B;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+        .limitation-title {
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            color: #92400E;
+            margin-bottom: 4px;
+        }
+        .limitation-desc {
+            font-size: 13px;
+            font-weight: 400;
+            color: #78350F;
+            line-height: 1.5;
+        }
+        .agent-badge {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: #1E293B;
+            color: #FFFFFF;
+            padding: 12px 16px;
+            border-left: 4px solid #EA580C;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+            min-width: 140px;
+        }
+        .agent-role {
+            font-size: 10px;
+            color: #EA580C;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header">
+            <div class="header-title">KNOWN LIMITATIONS</div>
+            <div class="header-subtitle">System Limitations & Constraints</div>
+        </div>
+        <div class="content">
+            <div>
+                <div class="limitation">
+                    <div class="limitation-title">Timezone</div>
+                    <div class="limitation-desc">Uses UTC (configurable per deployment)</div>
+                </div>
+                <div class="limitation">
+                    <div class="limitation-title">Single Location</div>
+                    <div class="limitation-desc">One physical location per instance</div>
+                </div>
+                <div class="limitation">
+                    <div class="limitation-title">Network Scope</div>
+                    <div class="limitation-desc">Local LAN/WiFi only (not internet-facing)</div>
+                </div>
+                <div class="limitation">
+                    <div class="limitation-title">Concurrency</div>
+                    <div class="limitation-desc">Designed for small teams (< 100 concurrent users)</div>
+                </div>
+            </div>
+            <div>
+                <div class="limitation">
+                    <div class="limitation-title">QR Distribution</div>
+                    <div class="limitation-desc">Manual distribution (no email/SMS)</div>
+                </div>
+                <div class="limitation">
+                    <div class="limitation-title">Authentication</div>
+                    <div class="limitation-desc">Cookie-based only (no OAuth/LDAP)</div>
+                </div>
+                <div class="limitation">
+                    <div class="limitation-title">Backup</div>
+                    <div class="limitation-desc">Manual SQLite backup required</div>
+                </div>
+                <div class="limitation">
+                    <div class="limitation-title">Database</div>
+                    <div class="limitation-desc">SQLite suitable for small deployments (< 10,000 items)</div>
+                </div>
+                <div style="background: #F59E0B; color: #FFFFFF; padding: 12px; margin-top: 8px; font-weight: 700; text-align: center; font-size: 13px;">
+                    ⚠ Documented • ⚠ Manageable • ⚠ Scalable
+                </div>
+            </div>
+        </div>
+        <div class="agent-badge">
+            By Zara<br>
+            <div class="agent-role">Researcher/<br>Requirement Analyst</div>
+        </div>
+    </div>
+</body>
+</html>

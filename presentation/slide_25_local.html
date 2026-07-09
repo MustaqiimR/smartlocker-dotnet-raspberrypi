@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Run Locally</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background: #FFFFFF;
+            font-family: 'Segoe UI', sans-serif;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background: #1E293B;
+            color: #FFFFFF;
+            padding-top: 40px;
+            padding-left: 60px;
+            padding-right: 60px;
+            border-bottom: 4px solid #EA580C;
+        }
+        .header-title {
+            font-size: 48px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 10px;
+        }
+        .header-subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            color: #EA580C;
+        }
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding-top: 31px; /* reduced from 40px to remove overflow */
+            padding-left: 60px;
+            padding-right: 60px;
+        }
+        .instruction {
+            background: #F8FAFC;
+            border-left: 4px solid #EA580C;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+        .instruction-title {
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            color: #1E293B;
+            margin-bottom: 4px;
+        }
+        .instruction-detail {
+            font-size: 13px;
+            font-weight: 400;
+            color: #334155;
+            line-height: 1.5;
+        }
+        .agent-badge {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: #1E293B;
+            color: #FFFFFF;
+            padding: 12px 16px;
+            border-left: 4px solid #EA580C;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+            min-width: 140px;
+        }
+        .agent-role {
+            font-size: 10px;
+            color: #EA580C;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header">
+            <div class="header-title">HOW TO RUN LOCALLY</div>
+            <div class="header-subtitle">Local Development Setup</div>
+        </div>
+        <div class="content">
+            <div class="instruction">
+                <div class="instruction-title">Command</div>
+                <div class="instruction-detail">cd SmartLocker/src/SmartLocker.Web && dotnet run</div>
+            </div>
+            <div class="instruction">
+                <div class="instruction-title">HTTP Access</div>
+                <div class="instruction-detail">http://localhost:5000</div>
+            </div>
+            <div class="instruction">
+                <div class="instruction-title">HTTPS Access</div>
+                <div class="instruction-detail">https://localhost:5001</div>
+            </div>
+            <div class="instruction">
+                <div class="instruction-title">Admin Credentials</div>
+                <div class="instruction-detail">Username: admin | Password: admin123</div>
+            </div>
+            <div class="instruction">
+                <div class="instruction-title">Staff Credentials</div>
+                <div class="instruction-detail">Username: staff | Password: staff123</div>
+            </div>
+            <div class="instruction">
+                <div class="instruction-title">Database</div>
+                <div class="instruction-detail">SQLite smartlocker.db (auto-created)</div>
+            </div>
+            <div class="instruction">
+                <div class="instruction-title">Pre-populated</div>
+                <div class="instruction-detail">with test data (users, items, lockers)</div>
+            </div>
+            <div style="background: #10B981; color: #FFFFFF; padding: 12px; margin-top: 8px; font-weight: 700; text-align: center; font-size: 13px;">
+                ✓ Ready to Run • ✓ No Configuration • ✓ Test Data Included
+            </div>
+        </div>
+        <div class="agent-badge">
+            By Rafi<br>
+            <div class="agent-role">Raspberry Pi/<br>Linux Engineer</div>
+        </div>
+    </div>
+</body>
+</html>

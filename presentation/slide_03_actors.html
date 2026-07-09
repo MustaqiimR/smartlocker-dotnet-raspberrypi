@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Actors & Roles</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background: #FFFFFF;
+            font-family: 'Segoe UI', sans-serif;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background: #1E293B;
+            color: #FFFFFF;
+            padding-top: 40px;
+            padding-left: 60px;
+            padding-right: 60px;
+            border-bottom: 4px solid #EA580C;
+        }
+        .header-title {
+            font-size: 48px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 10px;
+        }
+        .header-subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            color: #EA580C;
+        }
+        .content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+            padding-top: 40px;
+            padding-left: 40px;
+            padding-right: 40px;
+        }
+        .actor-card {
+            background: #F8FAFC;
+            border-left: 4px solid #EA580C;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+        .actor-title {
+            font-size: 24px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            color: #1E293B;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .actor-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: #EA580C;
+        }
+        .responsibility {
+            font-size: 14px;
+            font-weight: 400;
+            color: #334155;
+            line-height: 1.7;
+            margin-bottom: 10px;
+            padding-left: 15px;
+            position: relative;
+        }
+        .responsibility:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #EA580C;
+            font-weight: 700;
+        }
+        .agent-badge {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: #1E293B;
+            color: #FFFFFF;
+            padding: 12px 16px;
+            border-left: 4px solid #EA580C;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+            min-width: 140px;
+        }
+        .agent-role {
+            font-size: 10px;
+            color: #EA580C;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header">
+            <div class="header-title">SYSTEM ACTORS & ROLES</div>
+            <div class="header-subtitle">User Roles and Responsibilities</div>
+        </div>
+        <div class="content">
+            <div class="actor-card">
+                <div class="actor-title">Admin</div>
+                <div class="actor-icon">👤</div>
+                <div class="responsibility">Full system control</div>
+                <div class="responsibility">User management</div>
+                <div class="responsibility">Item management</div>
+                <div class="responsibility">Request approval/rejection</div>
+                <div class="responsibility">Overdue tracking</div>
+                <div class="responsibility">Audit log viewing</div>
+                <div class="responsibility">System configuration</div>
+            </div>
+            <div class="actor-card">
+                <div class="actor-title">Staff</div>
+                <div class="actor-icon">💼</div>
+                <div class="responsibility">Search items</div>
+                <div class="responsibility">Submit requests</div>
+                <div class="responsibility">View active borrows</div>
+                <div class="responsibility">Return items</div>
+                <div class="responsibility">Extend loans</div>
+                <div class="responsibility">View own history</div>
+                <div class="responsibility">Limited dashboard</div>
+            </div>
+            <div class="actor-card">
+                <div class="actor-title">Locker Kiosk</div>
+                <div class="actor-icon">🔓</div>
+                <div class="responsibility">Public interface</div>
+                <div class="responsibility">QR code scanning</div>
+                <div class="responsibility">Unlock lockers</div>
+                <div class="responsibility">Item returns</div>
+                <div class="responsibility">No authentication</div>
+                <div class="responsibility">Touchscreen optimized</div>
+                <div class="responsibility">Audit logging</div>
+            </div>
+        </div>
+        <div class="agent-badge">
+            By Zara<br>
+            <div class="agent-role">Researcher/<br>Requirement Analyst</div>
+        </div>
+    </div>
+</body>
+</html>

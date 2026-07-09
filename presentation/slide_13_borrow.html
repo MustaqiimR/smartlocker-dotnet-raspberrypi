@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borrow & Return Workflow</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background: #FFFFFF;
+            font-family: 'Segoe UI', sans-serif;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background: #1E293B;
+            color: #FFFFFF;
+            padding-top: 40px;
+            padding-left: 60px;
+            padding-right: 60px;
+            border-bottom: 4px solid #EA580C;
+        }
+        .header-title {
+            font-size: 48px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 10px;
+        }
+        .header-subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            color: #EA580C;
+        }
+        .content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding-top: 40px;
+            padding-left: 60px;
+            padding-right: 60px;
+        }
+        .process {
+            background: #F8FAFC;
+            border-left: 4px solid #EA580C;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+        .process-title {
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            color: #1E293B;
+            margin-bottom: 4px;
+        }
+        .process-desc {
+            font-size: 13px;
+            font-weight: 400;
+            color: #334155;
+            line-height: 1.5;
+        }
+        .agent-badge {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: #1E293B;
+            color: #FFFFFF;
+            padding: 12px 16px;
+            border-left: 4px solid #EA580C;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+            min-width: 140px;
+        }
+        .agent-role {
+            font-size: 10px;
+            color: #EA580C;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header">
+            <div class="header-title">BORROW & RETURN WORKFLOW</div>
+            <div class="header-subtitle">Item Borrow & Return Process</div>
+        </div>
+        <div class="content">
+            <div>
+                <div class="process">
+                    <div class="process-title">Borrow Creation</div>
+                    <div class="process-desc">Automatic on request approval</div>
+                </div>
+                <div class="process">
+                    <div class="process-title">Status Updates</div>
+                    <div class="process-desc">Item → Borrowed, Locker → Occupied</div>
+                </div>
+                <div class="process">
+                    <div class="process-title">Return Process</div>
+                    <div class="process-desc">Staff clicks "Return" on active borrow</div>
+                </div>
+                <div class="process">
+                    <div class="process-title">Status Restoration</div>
+                    <div class="process-desc">Item → Available, Locker → Available</div>
+                </div>
+            </div>
+            <div>
+                <div class="process">
+                    <div class="process-title">Loan Extension</div>
+                    <div class="process-desc">Staff can extend due date before expiry</div>
+                </div>
+                <div class="process">
+                    <div class="process-title">Overdue Tracking</div>
+                    <div class="process-desc">System calculates days overdue</div>
+                </div>
+                <div class="process">
+                    <div class="process-title">Lost Item Handling</div>
+                    <div class="process-desc">Admin can mark items as lost</div>
+                </div>
+                <div class="process">
+                    <div class="process-title">Database Transactions</div>
+                    <div class="process-desc">All operations wrapped in transactions for consistency</div>
+                </div>
+                <div style="background: #10B981; color: #FFFFFF; padding: 12px; margin-top: 8px; font-weight: 700; text-align: center; font-size: 13px;">
+                    ✓ Automated • ✓ Consistent • ✓ Reliable
+                </div>
+            </div>
+        </div>
+        <div class="agent-badge">
+            By Ali<br>
+            <div class="agent-role">Fullstack<br>Integrator</div>
+        </div>
+    </div>
+</body>
+</html>

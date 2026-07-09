@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartLocker - Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            max-width: 600px;
+            width: 90%;
+        }
+        h1 {
+            color: #333;
+            margin-top: 0;
+        }
+        .status {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border: 1px solid #c3e6cb;
+        }
+        .credentials {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #2196F3;
+        }
+        .credentials h3 {
+            margin-top: 0;
+            color: #0066cc;
+        }
+        .cred-item {
+            margin: 10px 0;
+            font-family: monospace;
+            background: white;
+            padding: 10px;
+            border-radius: 3px;
+        }
+        .buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .btn-admin {
+            background: #ff6b6b;
+            color: white;
+        }
+        .btn-admin:hover {
+            background: #ff5252;
+        }
+        .btn-staff {
+            background: #4ecdc4;
+            color: white;
+        }
+        .btn-staff:hover {
+            background: #45b7aa;
+        }
+        .btn-kiosk {
+            background: #ffa502;
+            color: white;
+            grid-column: 1 / -1;
+        }
+        .btn-kiosk:hover {
+            background: #ff8c00;
+        }
+        .info {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 SmartLocker System</h1>
+        
+        <div class="status">
+            ✓ Application is Running and Ready!
+        </div>
+
+        <div class="info">
+            <strong>Note:</strong> The application is running locally. Use the buttons below to navigate to different interfaces.
+        </div>
+
+        <div class="credentials">
+            <h3>Admin Account</h3>
+            <div class="cred-item">Username: <strong>admin</strong></div>
+            <div class="cred-item">Password: <strong>admin123</strong></div>
+        </div>
+
+        <div class="credentials">
+            <h3>Staff Account</h3>
+            <div class="cred-item">Username: <strong>staff</strong></div>
+            <div class="cred-item">Password: <strong>staff123</strong></div>
+        </div>
+
+        <div class="buttons">
+            <button class="btn-admin" onclick="window.location.href='/Auth/Login'">Admin Login</button>
+            <button class="btn-staff" onclick="window.location.href='/Auth/Login'">Staff Login</button>
+            <button class="btn-kiosk" onclick="window.location.href='/Locker'">Kiosk Interface</button>
+        </div>
+
+        <div class="info">
+            <strong>What to Try:</strong>
+            <ul>
+                <li>Login as Admin and create items</li>
+                <li>Login as Staff and request items</li>
+                <li>Use the Kiosk interface for QR unlock</li>
+                <li>View system logs and reports</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
