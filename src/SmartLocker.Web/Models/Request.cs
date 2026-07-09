@@ -21,7 +21,7 @@ namespace SmartLocker.Web.Models
         public string Justification { get; set; }
 
         [MaxLength(500)]
-        public string RejectionReason { get; set; }
+        public string? RejectionReason { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
