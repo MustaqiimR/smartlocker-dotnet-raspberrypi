@@ -400,6 +400,12 @@
         
         async function startWebcam() {
             try {
+                // Check if getUserMedia is available (requires HTTPS or localhost)
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    alert('Webcam access not available.\n\nThis requires HTTPS or localhost.\n\nPlease use the Upload or Manual tab instead.');
+                    return;
+                }
+                
                 const video = document.getElementById('webcam');
                 webcamStream = await navigator.mediaDevices.getUserMedia({
                     video: { facingMode: 'environment' }
@@ -409,7 +415,17 @@
                 scanningActive = true;
                 scanWebcam();
             } catch (err) {
-                alert('Error accessing webcam: ' + err.message);
+                let message = 'Error accessing webcam.';
+                if (err.name === 'NotAllowedError') {
+                    message = 'Camera access denied. Please allow camera access in browser settings.';
+                } else if (err.name === 'NotFoundError') {
+                    message = 'No camera found on this device. Please use the Upload or Manual tab.';
+                } else if (err.name === 'NotSecureError' || err.name === 'SecurityError') {
+                    message = 'Webcam requires HTTPS or localhost. Please use the Upload or Manual tab.';
+                } else {
+                    message = 'Error: ' + err.message + '\n\nPlease use the Upload or Manual tab instead.';
+                }
+                alert(message);
             }
         }
         
