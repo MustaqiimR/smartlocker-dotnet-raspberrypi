@@ -79,6 +79,10 @@
                                 {
                                     <button class="btn btn-sm btn-warning" onclick="alert('Token Expired - Please request a new one')">Token Expired</button>
                                 }
+                                else
+                                {
+                                    <button class="btn btn-sm btn-secondary" onclick="alert('No token yet. Token will be generated when item is approved.')">Request Token</button>
+                                }
                                 <button class="btn btn-sm btn-warning" onclick="extendLoan(@borrow.BorrowId)">Extend</button>
                                 <button class="btn btn-sm btn-primary" onclick="returnItem(@borrow.BorrowId)">Return</button>
                             </td>

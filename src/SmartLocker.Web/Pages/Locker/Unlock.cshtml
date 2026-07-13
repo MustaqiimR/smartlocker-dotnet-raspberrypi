@@ -360,18 +360,20 @@
         
         <!-- Manual Tab -->
         <div id="manual-tab" class="tab-content">
-            <form method="post">
-                <div class="form-group">
-                    <label for="token">QR Token</label>
-                    <input type="text" id="token" name="token" placeholder="Paste token here..." autofocus />
-                </div>
-                
-                <div class="btn-group">
-                    <a href="/Locker" class="btn btn-back">← Back</a>
-                    <button type="submit" class="btn btn-submit">Unlock</button>
-                </div>
-            </form>
+            <div class="form-group">
+                <label for="token">QR Token</label>
+                <input type="text" id="token" name="token" placeholder="Paste token here..." autofocus />
+            </div>
         </div>
+        
+        <!-- Form and Buttons (outside tabs, visible in all tabs) -->
+        <form method="post" id="unlockForm">
+            <input type="hidden" id="tokenInput" name="token" />
+            <div class="btn-group">
+                <a href="/Locker" class="btn btn-back">← Back</a>
+                <button type="submit" class="btn btn-submit">Unlock</button>
+            </div>
+        </form>
         
         <!-- Hidden canvas for image processing -->
         <canvas id="canvas"></canvas>
@@ -442,11 +444,11 @@
                 const token = code.data;
                 document.getElementById('scanned-token').textContent = token;
                 document.getElementById('scanned-result').classList.add('show');
-                document.getElementById('token').value = token;
+                document.getElementById('tokenInput').value = token;
                 
                 // Auto-submit after 2 seconds
                 setTimeout(() => {
-                    document.querySelector('form').submit();
+                    document.getElementById('unlockForm').submit();
                 }, 2000);
                 
                 stopWebcam();
@@ -478,11 +480,11 @@
                         const token = code.data;
                         document.getElementById('upload-token').textContent = token;
                         document.getElementById('upload-result').classList.add('show');
-                        document.getElementById('token').value = token;
+                        document.getElementById('tokenInput').value = token;
                         
                         // Auto-submit after 2 seconds
                         setTimeout(() => {
-                            document.querySelector('form').submit();
+                            document.getElementById('unlockForm').submit();
                         }, 2000);
                     } else {
                         alert('No QR code found in the image. Please try another image.');
@@ -492,6 +494,14 @@
             };
             reader.readAsDataURL(file);
         }
+        
+        // Handle manual token entry
+        document.getElementById('token').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                document.getElementById('tokenInput').value = this.value;
+                document.getElementById('unlockForm').submit();
+            }
+        });
     </script>
 </body>
 </html>
