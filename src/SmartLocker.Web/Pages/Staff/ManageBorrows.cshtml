@@ -51,6 +51,7 @@
                         var daysLeft = (borrow.BorrowEndDate - DateTime.UtcNow).Days;
                         var isOverdue = daysLeft < 0;
                         var validToken = borrow.AccessTokens?.FirstOrDefault(t => !t.IsUsed && t.ExpiresAt > DateTime.UtcNow);
+                        var anyToken = borrow.AccessTokens?.FirstOrDefault(t => !t.IsUsed);
                         <tr>
                             <td>@borrow.BorrowId</td>
                             <td>@borrow.Item?.ItemName</td>
@@ -73,6 +74,10 @@
                                 @if (validToken != null)
                                 {
                                     <button class="btn btn-sm btn-info" onclick="viewQR('@validToken.Token', '@borrow.BorrowId')">View QR</button>
+                                }
+                                else if (anyToken != null)
+                                {
+                                    <button class="btn btn-sm btn-warning" onclick="alert('Token Expired - Please request a new one')">Token Expired</button>
                                 }
                                 <button class="btn btn-sm btn-warning" onclick="extendLoan(@borrow.BorrowId)">Extend</button>
                                 <button class="btn btn-sm btn-primary" onclick="returnItem(@borrow.BorrowId)">Return</button>
