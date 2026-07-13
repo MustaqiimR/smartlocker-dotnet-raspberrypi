@@ -11,6 +11,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <title>Unlock Locker - SmartLocker</title>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
     <style>
         * {
             margin: 0;
@@ -53,6 +54,38 @@
             color: #666;
         }
         
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .tab-button {
+            padding: 12px 20px;
+            border: none;
+            background: none;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #999;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab-button.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
         .form-group {
             margin-bottom: 20px;
         }
@@ -78,6 +111,59 @@
             outline: none;
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .webcam-container {
+            position: relative;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #000;
+        }
+        
+        #webcam {
+            width: 100%;
+            display: block;
+            border-radius: 10px;
+        }
+        
+        #canvas {
+            display: none;
+        }
+        
+        .scanner-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .btn-small {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-start {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-start:active {
+            transform: scale(0.95);
+        }
+        
+        .btn-stop {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-stop:active {
+            transform: scale(0.95);
         }
         
         .btn-group {
@@ -151,6 +237,48 @@
             line-height: 1.6;
         }
         
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+        
+        .file-input-label {
+            display: block;
+            padding: 15px;
+            background: #f5f5f5;
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 16px;
+            color: #667eea;
+            transition: all 0.3s;
+        }
+        
+        .file-input-label:hover {
+            background: #f0f0ff;
+        }
+        
+        .scanned-result {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .scanned-result.show {
+            display: block;
+        }
+        
         @@media (max-width: 600px) {
             .kiosk-container {
                 padding: 20px;
@@ -158,6 +286,15 @@
             
             .kiosk-header h1 {
                 font-size: 28px;
+            }
+            
+            .tabs {
+                flex-wrap: wrap;
+            }
+            
+            .tab-button {
+                padding: 10px 15px;
+                font-size: 14px;
             }
         }
     </style>
@@ -180,20 +317,181 @@
         }
         
         <div class="info-text">
-            <strong>Instructions:</strong> Scan the QR code provided in your approval email, or paste the token below.
+            <strong>Instructions:</strong> Use the webcam to scan, upload an image, or paste the token manually.
         </div>
         
-        <form method="post">
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab('webcam')">📷 Webcam</button>
+            <button class="tab-button" onclick="switchTab('upload')">📁 Upload</button>
+            <button class="tab-button" onclick="switchTab('manual')">⌨️ Manual</button>
+        </div>
+        
+        <!-- Webcam Tab -->
+        <div id="webcam-tab" class="tab-content active">
+            <div class="webcam-container">
+                <video id="webcam" playsinline></video>
+            </div>
+            <div class="scanner-controls">
+                <button type="button" class="btn-small btn-start" onclick="startWebcam()">Start Camera</button>
+                <button type="button" class="btn-small btn-stop" onclick="stopWebcam()">Stop Camera</button>
+            </div>
+            <div id="scanned-result" class="scanned-result">
+                <strong>✓ QR Code Detected!</strong><br/>
+                Token: <span id="scanned-token"></span>
+            </div>
+        </div>
+        
+        <!-- Upload Tab -->
+        <div id="upload-tab" class="tab-content">
             <div class="form-group">
-                <label for="token">QR Token</label>
-                <input type="text" id="token" name="token" placeholder="Scan QR or paste token..." autofocus />
+                <div class="file-input-wrapper">
+                    <input type="file" id="qrImageInput" accept="image/*" onchange="scanUploadedImage(event)" />
+                    <label for="qrImageInput" class="file-input-label">
+                        📤 Click to upload QR code image
+                    </label>
+                </div>
             </div>
-            
-            <div class="btn-group">
-                <a href="/Locker" class="btn btn-back">← Back</a>
-                <button type="submit" class="btn btn-submit">Unlock</button>
+            <div id="upload-result" class="scanned-result">
+                <strong>✓ QR Code Detected!</strong><br/>
+                Token: <span id="upload-token"></span>
             </div>
-        </form>
+        </div>
+        
+        <!-- Manual Tab -->
+        <div id="manual-tab" class="tab-content">
+            <form method="post">
+                <div class="form-group">
+                    <label for="token">QR Token</label>
+                    <input type="text" id="token" name="token" placeholder="Paste token here..." autofocus />
+                </div>
+                
+                <div class="btn-group">
+                    <a href="/Locker" class="btn btn-back">← Back</a>
+                    <button type="submit" class="btn btn-submit">Unlock</button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Hidden canvas for image processing -->
+        <canvas id="canvas"></canvas>
     </div>
+    
+    <script>
+        let webcamStream = null;
+        let scanningActive = false;
+        
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-button').forEach(el => el.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+            
+            // Stop webcam if switching away
+            if (tabName !== 'webcam') {
+                stopWebcam();
+            }
+        }
+        
+        async function startWebcam() {
+            try {
+                const video = document.getElementById('webcam');
+                webcamStream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: 'environment' }
+                });
+                video.srcObject = webcamStream;
+                video.play();
+                scanningActive = true;
+                scanWebcam();
+            } catch (err) {
+                alert('Error accessing webcam: ' + err.message);
+            }
+        }
+        
+        function stopWebcam() {
+            const video = document.getElementById('webcam');
+            if (webcamStream) {
+                webcamStream.getTracks().forEach(track => track.stop());
+                webcamStream = null;
+            }
+            scanningActive = false;
+            video.srcObject = null;
+        }
+        
+        function scanWebcam() {
+            const video = document.getElementById('webcam');
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            if (!scanningActive || !video.videoWidth) {
+                requestAnimationFrame(scanWebcam);
+                return;
+            }
+            
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            ctx.drawImage(video, 0, 0);
+            
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const code = jsQR(imageData.data, imageData.width, imageData.height);
+            
+            if (code) {
+                const token = code.data;
+                document.getElementById('scanned-token').textContent = token;
+                document.getElementById('scanned-result').classList.add('show');
+                document.getElementById('token').value = token;
+                
+                // Auto-submit after 2 seconds
+                setTimeout(() => {
+                    document.querySelector('form').submit();
+                }, 2000);
+                
+                stopWebcam();
+                return;
+            }
+            
+            requestAnimationFrame(scanWebcam);
+        }
+        
+        function scanUploadedImage(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.getElementById('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+                    
+                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    const code = jsQR(imageData.data, imageData.width, imageData.height);
+                    
+                    if (code) {
+                        const token = code.data;
+                        document.getElementById('upload-token').textContent = token;
+                        document.getElementById('upload-result').classList.add('show');
+                        document.getElementById('token').value = token;
+                        
+                        // Auto-submit after 2 seconds
+                        setTimeout(() => {
+                            document.querySelector('form').submit();
+                        }, 2000);
+                    } else {
+                        alert('No QR code found in the image. Please try another image.');
+                    }
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    </script>
 </body>
 </html>
