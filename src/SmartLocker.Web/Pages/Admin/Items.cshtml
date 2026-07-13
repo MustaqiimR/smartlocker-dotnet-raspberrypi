@@ -38,7 +38,14 @@
                         <option value="">Select a category</option>
                         @foreach (var category in Model.Categories)
                         {
-                            <option value="@category.CategoryId" @if (category.CategoryId == Model.EditingItem.CategoryId) { <text>selected</text> }>@category.CategoryName</option>
+                            if (category.CategoryId == Model.EditingItem.CategoryId)
+                            {
+                                <option value="@category.CategoryId" selected>@category.CategoryName</option>
+                            }
+                            else
+                            {
+                                <option value="@category.CategoryId">@category.CategoryName</option>
+                            }
                         }
                     </select>
                 </div>
@@ -56,7 +63,14 @@
                         <option value="">Select a locker</option>
                         @foreach (var locker in Model.Lockers)
                         {
-                            <option value="@locker.LockerId" @if (locker.LockerId == Model.EditingItem.LockerId) { <text>selected</text> }>@locker.LockerName - @locker.Location</option>
+                            if (locker.LockerId == Model.EditingItem.LockerId)
+                            {
+                                <option value="@locker.LockerId" selected>@locker.LockerName - @locker.Location</option>
+                            }
+                            else
+                            {
+                                <option value="@locker.LockerId">@locker.LockerName - @locker.Location</option>
+                            }
                         }
                     </select>
                 </div>
@@ -145,6 +159,10 @@ else
                         <td>
                             <div class="table-actions">
                                 <a href="/Admin/Items?editId=@item.ItemId" class="btn btn-secondary">Edit</a>
+                                <form method="post" style="display:inline;">
+                                    <input type="hidden" name="itemId" value="@item.ItemId" />
+                                    <button type="submit" class="btn btn-danger" name="action" value="delete" onclick="return confirm('Delete this item?')">Delete</button>
+                                </form>
                             </div>
                         </td>
                     </tr>

@@ -89,6 +89,22 @@ namespace SmartLocker.Web.Pages.Admin
                     _logService.LogAction(currentUserId, "Disable", "User", userId, $"Disabled user ID: {userId}", "Success");
                     SuccessMessage = "User disabled successfully.";
                 }
+                else if (action == "enable")
+                {
+                    var user = _userService.GetUserById(userId);
+                    if (user != null)
+                    {
+                        user.IsActive = true;
+                        _context.Users.Update(user);
+                        _context.SaveChanges();
+                        _logService.LogAction(currentUserId, "Enable", "User", userId, $"Enabled user ID: {userId}", "Success");
+                        SuccessMessage = "User enabled successfully.";
+                    }
+                    else
+                    {
+                        ErrorMessage = "User not found.";
+                    }
+                }
             }
             catch (Exception ex)
             {

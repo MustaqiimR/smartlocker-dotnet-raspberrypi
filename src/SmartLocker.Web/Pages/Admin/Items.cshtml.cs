@@ -85,6 +85,21 @@ namespace SmartLocker.Web.Pages.Admin
                         }
                     }
                 }
+                else if (action == "delete")
+                {
+                    var item = _itemService.GetItemById(itemId);
+                    if (item != null)
+                    {
+                        _context.Items.Remove(item);
+                        _context.SaveChanges();
+                        _logService.LogAction(currentUserId, "Delete", "Item", itemId, $"Deleted item: {item.ItemName}", "Success");
+                        SuccessMessage = $"Item deleted successfully.";
+                    }
+                    else
+                    {
+                        ErrorMessage = "Item not found.";
+                    }
+                }
             }
             catch (Exception ex)
             {
