@@ -61,7 +61,9 @@ namespace SmartLocker.Web.Pages.Locker
                 // Trigger locker unlock (mock or GPIO)
                 _lockerService.UnlockLocker(accessToken.LockerId);
 
-                _logService.LogAction(0, "UnlockSuccess", "Locker", accessToken.LockerId, $"Locker {accessToken.LockerId} unlocked", "Success");
+                // Log unlock success and item taken
+                _logService.LogAction(accessToken.UserId, "UnlockSuccess", "Locker", accessToken.LockerId, $"Locker {accessToken.LockerId} unlocked", "Success");
+                _logService.LogAction(accessToken.UserId, "ItemTaken", "Item", accessToken.ItemId, $"Item {accessToken.ItemId} taken from locker {accessToken.LockerId}", "Success");
 
                 SuccessMessage = $"Locker unlocked successfully! Please retrieve your item from Locker {accessToken.Locker?.LockerName}.";
                 return Page();

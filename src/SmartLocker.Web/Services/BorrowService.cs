@@ -20,6 +20,7 @@ namespace SmartLocker.Web.Services
                 .Include(b => b.Item)
                 .Include(b => b.Locker)
                 .Include(b => b.BorrowStatus)
+                .Include(b => b.AccessTokens)
                 .OrderByDescending(b => b.BorrowStartDate)
                 .ToList();
         }
@@ -31,6 +32,7 @@ namespace SmartLocker.Web.Services
                 .Include(b => b.Item)
                 .Include(b => b.Locker)
                 .Include(b => b.BorrowStatus)
+                .Include(b => b.AccessTokens)
                 .FirstOrDefault(b => b.BorrowId == borrowId);
         }
 
@@ -47,6 +49,7 @@ namespace SmartLocker.Web.Services
                 .Include(b => b.Item)
                 .Include(b => b.Locker)
                 .Include(b => b.BorrowStatus)
+                .Include(b => b.AccessTokens)
                 .Where(b => b.BorrowStatusId == activeStatus.BorrowStatusId)
                 .OrderByDescending(b => b.BorrowStartDate)
                 .ToList();
@@ -65,6 +68,7 @@ namespace SmartLocker.Web.Services
                 .Include(b => b.Item)
                 .Include(b => b.Locker)
                 .Include(b => b.BorrowStatus)
+                .Include(b => b.AccessTokens)
                 .Where(b => b.BorrowStatusId == activeStatus.BorrowStatusId && 
                            b.BorrowEndDate < DateTime.UtcNow)
                 .OrderBy(b => b.BorrowEndDate)
@@ -78,6 +82,7 @@ namespace SmartLocker.Web.Services
                 .Include(b => b.Item)
                 .Include(b => b.Locker)
                 .Include(b => b.BorrowStatus)
+                .Include(b => b.AccessTokens)
                 .Where(b => b.UserId == userId)
                 .OrderByDescending(b => b.BorrowStartDate)
                 .ToList();
@@ -96,6 +101,7 @@ namespace SmartLocker.Web.Services
                 .Include(b => b.Item)
                 .Include(b => b.Locker)
                 .Include(b => b.BorrowStatus)
+                .Include(b => b.AccessTokens)
                 .Where(b => b.UserId == userId && b.BorrowStatusId == activeStatus.BorrowStatusId)
                 .OrderByDescending(b => b.BorrowStartDate)
                 .ToList();

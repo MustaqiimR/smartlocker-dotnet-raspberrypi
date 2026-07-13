@@ -50,6 +50,7 @@
                     {
                         var daysLeft = (borrow.BorrowEndDate - DateTime.UtcNow).Days;
                         var isOverdue = daysLeft < 0;
+                        var validToken = borrow.AccessTokens?.FirstOrDefault(t => !t.IsUsed && t.ExpiresAt > DateTime.UtcNow);
                         <tr>
                             <td>@borrow.BorrowId</td>
                             <td>@borrow.Item?.ItemName</td>
@@ -69,6 +70,10 @@
                             </td>
                             <td><span class="badge badge-success">@borrow.BorrowStatus?.BorrowStatusName</span></td>
                             <td>
+                                @if (validToken != null)
+                                {
+                                    <button class="btn btn-sm btn-info" onclick="viewQR('@validToken.Token', '@borrow.BorrowId')">View QR</button>
+                                }
                                 <button class="btn btn-sm btn-warning" onclick="extendLoan(@borrow.BorrowId)">Extend</button>
                                 <button class="btn btn-sm btn-primary" onclick="returnItem(@borrow.BorrowId)">Return</button>
                             </td>
@@ -80,7 +85,33 @@
     </div>
 </div>
 
-<!-- Extend Loan Modal -->
+<!-- QR Modal -->
+<div id="qrModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>QR Code for Unlock</h2>
+            <span class="close" onclick="closeQRModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <p><strong>Borrow ID:</strong> <span id="qrBorrowId"></span></p>
+            <div style="text-align: center; padding: 20px;">
+                <div id="qrCodeContainer" style="display: inline-block;"></div>
+            </div>
+            <p style="text-align: center; margin-top: 20px;">
+                <strong>Token:</strong><br/>
+                <code id="qrToken" style="word-break: break-all; background: #f5f5f5; padding: 10px; border-radius: 5px; display: block;"></code>
+            </p>
+            <p style="color: #666; font-size: 12px; margin-top: 15px;">
+                <strong>Instructions:</strong> Use this QR code or token to unlock your locker. The token expires in 15 minutes.
+            </p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeQRModal()">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- Extend Modal -->
 <div id="extendModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -88,11 +119,11 @@
             <span class="close" onclick="closeExtendModal()">&times;</span>
         </div>
         <div class="modal-body">
+            <p>How many additional days would you like to extend this loan?</p>
             <form method="post" id="extendForm">
                 <input type="hidden" id="extendBorrowId" name="borrowId" />
                 <div class="form-group">
-                    <label for="extensionDays">Extension (days)</label>
-                    <input type="number" id="extensionDays" name="extensionDays" value="7" min="1" max="30" required />
+                    <input type="number" id="extendDays" name="extendDays" value="7" min="1" max="30" required />
                 </div>
             </form>
         </div>
@@ -103,7 +134,7 @@
     </div>
 </div>
 
-<!-- Return Item Modal -->
+<!-- Return Modal -->
 <div id="returnModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -111,7 +142,7 @@
             <span class="close" onclick="closeReturnModal()">&times;</span>
         </div>
         <div class="modal-body">
-            <p>Are you sure you want to return this item? The item will be marked as available and the locker will be freed.</p>
+            <p>Are you sure you want to return this item?</p>
             <form method="post" id="returnForm">
                 <input type="hidden" id="returnBorrowId" name="borrowId" />
             </form>
@@ -176,6 +207,19 @@
         margin-top: 20px;
     }
 
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
     .badge {
         display: inline-block;
         padding: 5px 10px;
@@ -189,18 +233,41 @@
         color: white;
     }
 
-    .badge-info {
-        background-color: #17a2b8;
-        color: white;
-    }
-
     .badge-danger {
         background-color: #dc3545;
         color: white;
     }
+
+    .badge-info {
+        background-color: #17a2b8;
+        color: white;
+    }
 </style>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
+    function viewQR(token, borrowId) {
+        document.getElementById('qrToken').textContent = token;
+        document.getElementById('qrBorrowId').textContent = borrowId;
+        document.getElementById('qrCodeContainer').innerHTML = '';
+        
+        // Generate QR code
+        new QRCode(document.getElementById('qrCodeContainer'), {
+            text: 'http://smartlocker.local/Locker/Unlock?token=' + token,
+            width: 200,
+            height: 200,
+            colorDark: '#000000',
+            colorLight: '#ffffff',
+            correctLevel: QRCode.CorrectLevel.H
+        });
+        
+        document.getElementById('qrModal').style.display = 'block';
+    }
+
+    function closeQRModal() {
+        document.getElementById('qrModal').style.display = 'none';
+    }
+
     function extendLoan(borrowId) {
         document.getElementById('extendBorrowId').value = borrowId;
         document.getElementById('extendModal').style.display = 'block';
@@ -230,8 +297,13 @@
     }
 
     window.onclick = function (event) {
+        var qrModal = document.getElementById('qrModal');
         var extendModal = document.getElementById('extendModal');
         var returnModal = document.getElementById('returnModal');
+        
+        if (event.target == qrModal) {
+            qrModal.style.display = 'none';
+        }
         if (event.target == extendModal) {
             extendModal.style.display = 'none';
         }
