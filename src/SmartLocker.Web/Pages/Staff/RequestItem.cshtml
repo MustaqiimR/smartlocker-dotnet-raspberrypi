@@ -58,6 +58,66 @@
         </div>
     </div>
 
+    <!-- Recent Borrow History -->
+    @if (Model.RecentBorrowHistory.Count > 0)
+    {
+        <div class="card">
+            <div class="card-header">
+                <h3>Recent Borrow History</h3>
+            </div>
+            <div style="padding: 20px;">
+                <p class="text-muted">Previous usage of this item (last 5 entries)</p>
+                <table class="table table-sm table-striped">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Action</th>
+                            <th>User</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var log in Model.RecentBorrowHistory)
+                        {
+                            <tr>
+                                <td>@log.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                                <td>
+                                    @{
+                                        var badgeClass = log.Action switch
+                                        {
+                                            "Requested" => "badge-warning",
+                                            "Approved" => "badge-success",
+                                            "Rejected" => "badge-danger",
+                                            "Borrowed" => "badge-info",
+                                            "Returned" => "badge-success",
+                                            "Extended" => "badge-primary",
+                                            "Overdue" => "badge-danger",
+                                            "Lost" => "badge-dark",
+                                            _ => "badge-secondary"
+                                        };
+                                    }
+                                    <span class="badge @badgeClass">@log.Action</span>
+                                </td>
+                                <td>@log.User?.FullName</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(log.ActionDetails))
+                                    {
+                                        <small>@log.ActionDetails</small>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">-</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <a href="/Staff/ItemBorrowHistory/@Model.Item.ItemId" class="btn btn-sm btn-info">View Full History</a>
+            </div>
+        </div>
+    }
+
     <div class="card">
         <div class="card-header">
             <h3>Submit Request</h3>

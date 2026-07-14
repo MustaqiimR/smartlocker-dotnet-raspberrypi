@@ -1,0 +1,210 @@
+@page "/Staff/ItemBorrowHistory/{itemId}"
+@model SmartLocker.Web.Pages.Staff.ItemBorrowHistoryModel
+@{
+    ViewData["Title"] = "Item Borrow History";
+}
+
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1>Item Borrow History</h1>
+            <p class="text-muted">View complete borrow history for an item</p>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="/Staff/SearchItems" class="btn btn-secondary">Back to Search</a>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @Model.ErrorMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (Model.Item != null)
+    {
+        <!-- Item Details Card -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Item Details</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Item Name:</strong> @Model.Item.ItemName</p>
+                        <p><strong>Serial Number:</strong> @Model.Item.SerialNumber</p>
+                        <p><strong>Category:</strong> @Model.Item.Category?.CategoryName</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Status:</strong> <span class="badge bg-info">@Model.Item.ItemStatus?.ItemStatusName</span></p>
+                        <p><strong>Location:</strong> @Model.Item.Locker?.LockerName</p>
+                        <p><strong>Description:</strong> @Model.Item.Description</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Card -->
+        @if (Model.Stats != null)
+        {
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Borrow Statistics</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <h3 class="text-primary">@Model.Stats.TotalBorrows</h3>
+                                <p class="text-muted">Total Borrows</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <h3 class="text-success">@Model.Stats.TotalReturns</h3>
+                                <p class="text-muted">Total Returns</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <h3 class="text-info">@Model.Stats.TotalLogEntries</h3>
+                                <p class="text-muted">Log Entries</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <p class="text-muted">Last Borrowed</p>
+                                <p>
+                                    @if (Model.Stats.LastBorrowDate.HasValue)
+                                    {
+                                        <strong>@Model.Stats.LastBorrowDate.Value.ToString("yyyy-MM-dd HH:mm")</strong>
+                                        <br />
+                                        <small>by @Model.Stats.LastBorrowedBy</small>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">Never</span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!-- Borrow History Table -->
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Borrow History (@Model.BorrowHistory.Count entries)</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.BorrowHistory.Count == 0)
+                {
+                    <div class="alert alert-info">
+                        No borrow history available for this item.
+                    </div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Date & Time</th>
+                                    <th>Action</th>
+                                    <th>User</th>
+                                    <th>Previous Status</th>
+                                    <th>New Status</th>
+                                    <th>Details</th>
+                                    <th>Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var log in Model.BorrowHistory)
+                                {
+                                    <tr>
+                                        <td>
+                                            <small>@log.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")</small>
+                                        </td>
+                                        <td>
+                                            @{
+                                                var actionBadgeClass = log.Action switch
+                                                {
+                                                    "Requested" => "bg-warning",
+                                                    "Approved" => "bg-success",
+                                                    "Rejected" => "bg-danger",
+                                                    "Borrowed" => "bg-info",
+                                                    "Returned" => "bg-success",
+                                                    "Extended" => "bg-primary",
+                                                    "Overdue" => "bg-danger",
+                                                    "Lost" => "bg-dark",
+                                                    _ => "bg-secondary"
+                                                };
+                                            }
+                                            <span class="badge @actionBadgeClass">@log.Action</span>
+                                        </td>
+                                        <td>@log.User?.FullName</td>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(log.PreviousStatus))
+                                            {
+                                                <small>@log.PreviousStatus</small>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">-</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(log.NewStatus))
+                                            {
+                                                <small>@log.NewStatus</small>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">-</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(log.ActionDetails))
+                                            {
+                                                <small>@log.ActionDetails</small>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">-</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(log.Notes))
+                                            {
+                                                <small class="text-muted">@log.Notes</small>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">-</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .table-responsive {
+        font-size: 0.9rem;
+    }
+    
+    .badge {
+        font-size: 0.8rem;
+        padding: 0.35rem 0.65rem;
+    }
+</style>

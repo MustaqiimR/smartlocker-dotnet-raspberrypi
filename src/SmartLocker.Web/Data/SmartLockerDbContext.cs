@@ -23,6 +23,7 @@ namespace SmartLocker.Web.Data
         public DbSet<Borrow> Borrows { get; set; }
         public DbSet<LockerAccessToken> LockerAccessTokens { get; set; }
         public DbSet<SystemLog> SystemLogs { get; set; }
+        public DbSet<BorrowLog> BorrowLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

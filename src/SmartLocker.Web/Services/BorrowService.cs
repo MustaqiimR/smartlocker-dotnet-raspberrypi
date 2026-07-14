@@ -7,10 +7,12 @@ namespace SmartLocker.Web.Services
     public class BorrowService
     {
         private readonly SmartLockerDbContext _context;
+        private readonly BorrowLogService _borrowLogService;
 
-        public BorrowService(SmartLockerDbContext context)
+        public BorrowService(SmartLockerDbContext context, BorrowLogService borrowLogService = null)
         {
             _context = context;
+            _borrowLogService = borrowLogService ?? new BorrowLogService(context);
         }
 
         public List<Borrow> GetAllBorrows()
@@ -161,6 +163,18 @@ namespace SmartLocker.Web.Services
                     _context.SaveChanges();
                     transaction.Commit();
 
+                    // Log the borrow creation
+                    _borrowLogService.LogBorrowActionAsync(
+                        itemId,
+                        userId,
+                        "Borrowed",
+                        $"Item borrowed from locker {lockerId}",
+                        "Available",
+                        "Borrowed",
+                        $"Due date: {dueDate:yyyy-MM-dd}",
+                        borrow.BorrowId
+                    ).Wait();
+
                     return borrow;
                 }
                 catch
@@ -215,6 +229,18 @@ namespace SmartLocker.Web.Services
 
                     _context.SaveChanges();
                     transaction.Commit();
+
+                    // Log the return
+                    _borrowLogService.LogBorrowActionAsync(
+                        borrow.ItemId,
+                        borrow.UserId,
+                        "Returned",
+                        "Item returned",
+                        "Borrowed",
+                        "Available",
+                        $"Returned on {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss}",
+                        borrowId
+                    ).Wait();
                 }
                 catch
                 {
@@ -245,10 +271,23 @@ namespace SmartLocker.Web.Services
                 throw new Exception("New due date must be in the future");
             }
 
+            var oldDueDate = borrow.BorrowEndDate;
             borrow.BorrowEndDate = newDueDate;
             borrow.UpdatedAt = DateTime.UtcNow;
 
             _context.SaveChanges();
+
+            // Log the extension
+            _borrowLogService.LogBorrowActionAsync(
+                borrow.ItemId,
+                borrow.UserId,
+                "Extended",
+                "Loan period extended",
+                $"Due: {oldDueDate:yyyy-MM-dd}",
+                $"Due: {newDueDate:yyyy-MM-dd}",
+                $"Extended from {oldDueDate:yyyy-MM-dd} to {newDueDate:yyyy-MM-dd}",
+                borrowId
+            ).Wait();
         }
 
         public void MarkAsLost(int borrowId)
@@ -289,6 +328,18 @@ namespace SmartLocker.Web.Services
 
                     _context.SaveChanges();
                     transaction.Commit();
+
+                    // Log the lost item
+                    _borrowLogService.LogBorrowActionAsync(
+                        borrow.ItemId,
+                        borrow.UserId,
+                        "Lost",
+                        "Item marked as lost",
+                        "Borrowed",
+                        "Lost",
+                        "Item was not returned and marked as lost",
+                        borrowId
+                    ).Wait();
                 }
                 catch
                 {

@@ -12,21 +12,24 @@ namespace SmartLocker.Web.Pages.Staff
         private readonly ItemService _itemService;
         private readonly RequestService _requestService;
         private readonly LogService _logService;
+        private readonly BorrowLogService _borrowLogService;
 
         public Item Item { get; set; }
         public List<Item> Items { get; set; } = new();
+        public List<BorrowLog> RecentBorrowHistory { get; set; } = new();
         public string SuccessMessage { get; set; }
         public string ErrorMessage { get; set; }
         public string SearchTerm { get; set; }
 
-        public RequestItemModel(ItemService itemService, RequestService requestService, LogService logService)
+        public RequestItemModel(ItemService itemService, RequestService requestService, LogService logService, BorrowLogService borrowLogService)
         {
             _itemService = itemService;
             _requestService = requestService;
             _logService = logService;
+            _borrowLogService = borrowLogService;
         }
 
-        public void OnGet(int? id, string search = "")
+        public async Task OnGetAsync(int? id, string search = "")
         {
             SearchTerm = search;
             
@@ -34,6 +37,10 @@ namespace SmartLocker.Web.Pages.Staff
             {
                 // Show specific item
                 Item = _itemService.GetItemById(id.Value);
+                
+                // Load recent borrow history (last 5 entries)
+                var allHistory = await _borrowLogService.GetItemBorrowHistoryAsync(id.Value);
+                RecentBorrowHistory = allHistory.Take(5).ToList();
             }
             else
             {

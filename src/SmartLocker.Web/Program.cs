@@ -18,6 +18,7 @@ builder.Services.AddDbContext<SmartLockerDbContext>(options =>
 builder.Services.AddScoped<AuthenticationService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<ItemService>();
+builder.Services.AddScoped<BorrowLogService>();
 builder.Services.AddScoped<BorrowService>();
 builder.Services.AddScoped<RequestService>();
 builder.Services.AddScoped<LockerService>();

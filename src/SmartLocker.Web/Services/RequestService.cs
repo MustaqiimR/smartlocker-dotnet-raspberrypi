@@ -7,10 +7,12 @@ namespace SmartLocker.Web.Services
     public class RequestService
     {
         private readonly SmartLockerDbContext _context;
+        private readonly BorrowLogService _borrowLogService;
 
-        public RequestService(SmartLockerDbContext context)
+        public RequestService(SmartLockerDbContext context, BorrowLogService borrowLogService = null)
         {
             _context = context;
+            _borrowLogService = borrowLogService ?? new BorrowLogService(context);
         }
 
         public List<Request> GetAllRequests()
@@ -109,6 +111,19 @@ namespace SmartLocker.Web.Services
             _context.Requests.Add(request);
             _context.SaveChanges();
 
+            // Log the request creation
+            var startDateStr = requestedStartDate?.ToString("yyyy-MM-dd") ?? "N/A";
+            var endDateStr = requestedEndDate?.ToString("yyyy-MM-dd") ?? "N/A";
+            _borrowLogService.LogBorrowActionAsync(
+                itemId,
+                userId,
+                "Requested",
+                $"Request created for dates {startDateStr} to {endDateStr}",
+                null,
+                "Pending",
+                justification
+            ).Wait();
+
             return request;
         }
 
@@ -145,6 +160,17 @@ namespace SmartLocker.Web.Services
             request.ApprovedAt = DateTime.UtcNow;
 
             _context.SaveChanges();
+
+            // Log the approval
+            _borrowLogService.LogBorrowActionAsync(
+                request.ItemId,
+                request.UserId,
+                "Approved",
+                "Request approved by admin",
+                "Pending",
+                "Approved",
+                null
+            ).Wait();
         }
 
         public void RejectRequest(int requestId, string rejectionReason)
@@ -173,6 +199,17 @@ namespace SmartLocker.Web.Services
             request.RejectedAt = DateTime.UtcNow;
 
             _context.SaveChanges();
+
+            // Log the rejection
+            _borrowLogService.LogBorrowActionAsync(
+                request.ItemId,
+                request.UserId,
+                "Rejected",
+                "Request rejected by admin",
+                "Pending",
+                "Rejected",
+                rejectionReason
+            ).Wait();
         }
 
         public void DeleteRequest(int requestId)
