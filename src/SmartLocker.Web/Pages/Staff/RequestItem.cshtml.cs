@@ -46,7 +46,7 @@ namespace SmartLocker.Web.Pages.Staff
             }
         }
 
-        public IActionResult OnPost(int itemId, string justification)
+        public IActionResult OnPost(int itemId, string justification, string requestedStartDate, string requestedEndDate)
         {
             var currentUserId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "0");
 
@@ -59,7 +59,27 @@ namespace SmartLocker.Web.Pages.Staff
                     return Page();
                 }
 
-                var request = _requestService.CreateRequest(currentUserId, itemId, justification);
+                DateTime? startDate = null;
+                DateTime? endDate = null;
+
+                if (!string.IsNullOrEmpty(requestedStartDate) && DateTime.TryParse(requestedStartDate, out var start))
+                {
+                    startDate = start;
+                }
+
+                if (!string.IsNullOrEmpty(requestedEndDate) && DateTime.TryParse(requestedEndDate, out var end))
+                {
+                    endDate = end;
+                }
+
+                if (startDate.HasValue && endDate.HasValue && startDate >= endDate)
+                {
+                    ErrorMessage = "End date must be after start date.";
+                    Item = _itemService.GetItemById(itemId);
+                    return Page();
+                }
+
+                var request = _requestService.CreateRequest(currentUserId, itemId, justification, startDate, endDate);
                 _logService.LogAction(currentUserId, "Create", "Request", request.RequestId, $"Created request for item {itemId}", "Success");
                 
                 SuccessMessage = "Request submitted successfully. Please wait for approval.";

@@ -60,7 +60,7 @@ namespace SmartLocker.Web.Services
                 .ToList();
         }
 
-        public Request CreateRequest(int userId, int itemId, string justification)
+        public Request CreateRequest(int userId, int itemId, string justification, DateTime? requestedStartDate = null, DateTime? requestedEndDate = null)
         {
             // Validate item exists and is available
             var item = _context.Items
@@ -101,6 +101,8 @@ namespace SmartLocker.Web.Services
                 ItemId = itemId,
                 RequestStatusId = pendingStatus.RequestStatusId,
                 Justification = justification,
+                RequestedStartDate = requestedStartDate,
+                RequestedEndDate = requestedEndDate,
                 CreatedAt = DateTime.UtcNow
             };
 
@@ -170,6 +172,25 @@ namespace SmartLocker.Web.Services
             request.RejectionReason = rejectionReason ?? "No reason provided";
             request.RejectedAt = DateTime.UtcNow;
 
+            _context.SaveChanges();
+        }
+
+        public void DeleteRequest(int requestId)
+        {
+            var request = GetRequestById(requestId);
+            if (request == null)
+            {
+                throw new Exception("Request not found");
+            }
+
+            // Only allow deletion of rejected or cancelled requests
+            var rejectedStatus = _context.RequestStatuses.FirstOrDefault(s => s.RequestStatusName == "Rejected");
+            if (request.RequestStatusId != rejectedStatus?.RequestStatusId)
+            {
+                throw new Exception("Only rejected requests can be deleted");
+            }
+
+            _context.Requests.Remove(request);
             _context.SaveChanges();
         }
     }

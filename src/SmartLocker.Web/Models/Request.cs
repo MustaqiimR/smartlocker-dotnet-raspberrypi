@@ -29,6 +29,10 @@ namespace SmartLocker.Web.Models
 
         public DateTime? RejectedAt { get; set; }
 
+        public DateTime? RequestedStartDate { get; set; }
+
+        public DateTime? RequestedEndDate { get; set; }
+
         // Navigation properties
         public virtual User User { get; set; }
         public virtual Item Item { get; set; }

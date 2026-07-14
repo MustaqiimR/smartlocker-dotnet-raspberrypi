@@ -1,0 +1,89 @@
+@page
+@model BorrowHistoryModel
+@{
+    ViewData["Title"] = "Borrow History";
+}
+
+<div class="page-header">
+    <h1>Borrow History</h1>
+    <p>View all your past and current borrow records</p>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>Filter by Status</h3>
+    </div>
+    <div style="padding: 20px;">
+        <div class="btn-group">
+            <a href="/Staff/BorrowHistory?status=All" class="btn @(Model.SelectedStatus == "All" ? "btn-primary" : "btn-secondary")">All</a>
+            <a href="/Staff/BorrowHistory?status=Active" class="btn @(Model.SelectedStatus == "Active" ? "btn-primary" : "btn-secondary")">Active</a>
+            <a href="/Staff/BorrowHistory?status=Returned" class="btn @(Model.SelectedStatus == "Returned" ? "btn-primary" : "btn-secondary")">Returned</a>
+            <a href="/Staff/BorrowHistory?status=Overdue" class="btn @(Model.SelectedStatus == "Overdue" ? "btn-primary" : "btn-secondary")">Overdue</a>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>Borrow Records (@Model.BorrowHistory.Count)</h3>
+    </div>
+    @if (Model.BorrowHistory.Any())
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Category</th>
+                    <th>Locker</th>
+                    <th>Start Date</th>
+                    <th>Due Date</th>
+                    <th>Return Date</th>
+                    <th>Status</th>
+                    <th>Days</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var borrow in Model.BorrowHistory)
+                {
+                    var daysLeft = (borrow.BorrowEndDate - DateTime.UtcNow.Date).Days;
+                    var statusBadge = borrow.BorrowStatusId == 1 ? "badge-info" : 
+                                      borrow.BorrowStatusId == 2 ? "badge-success" : "badge-danger";
+                    var statusText = borrow.BorrowStatusId == 1 ? "Active" : 
+                                     borrow.BorrowStatusId == 2 ? "Returned" : "Overdue";
+
+                    <tr>
+                        <td>@borrow.Item?.ItemName</td>
+                        <td>@borrow.Item?.Category?.CategoryName</td>
+                        <td>@borrow.Locker?.LockerName</td>
+                        <td>@borrow.BorrowStartDate.ToString("yyyy-MM-dd")</td>
+                        <td>@borrow.BorrowEndDate.ToString("yyyy-MM-dd")</td>
+                        <td>@(borrow.BorrowReturnDate.HasValue ? borrow.BorrowReturnDate.Value.ToString("yyyy-MM-dd") : "N/A")</td>
+                        <td><span class="badge @statusBadge">@statusText</span></td>
+                        <td>
+                            @if (borrow.BorrowStatusId == 1)
+                            {
+                                <span class="@(daysLeft < 0 ? "text-danger" : "text-info")">@daysLeft days</span>
+                            }
+                            else if (borrow.BorrowStatusId == 2)
+                            {
+                                <span class="text-success">Returned</span>
+                            }
+                            else
+                            {
+                                <span class="text-danger">Overdue</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p style="padding: 20px;">No borrow records found.</p>
+    }
+</div>
+
+<div style="margin-top: 20px;">
+    <a href="/Staff/Dashboard" class="btn btn-secondary">Back to Dashboard</a>
+</div>
