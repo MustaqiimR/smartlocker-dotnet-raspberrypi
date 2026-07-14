@@ -11,6 +11,7 @@ namespace SmartLocker.Web.Pages.Admin
     {
         private readonly UserService _userService;
         private readonly LogService _logService;
+        private readonly AuthenticationService _authService;
         private readonly SmartLocker.Web.Data.SmartLockerDbContext _context;
 
         public List<User> Users { get; set; } = new();
@@ -19,10 +20,11 @@ namespace SmartLocker.Web.Pages.Admin
         public string SuccessMessage { get; set; }
         public string ErrorMessage { get; set; }
 
-        public UsersModel(UserService userService, LogService logService, SmartLocker.Web.Data.SmartLockerDbContext context)
+        public UsersModel(UserService userService, LogService logService, AuthenticationService authService, SmartLocker.Web.Data.SmartLockerDbContext context)
         {
             _userService = userService;
             _logService = logService;
+            _authService = authService;
             _context = context;
         }
 
@@ -76,6 +78,59 @@ namespace SmartLocker.Web.Pages.Admin
                             _logService.LogAction(currentUserId, "Edit", "User", userId, $"Updated user: {user.Username}", "Success");
                             SuccessMessage = $"User '{user.Username}' updated successfully.";
                             EditingUser = null;
+                        }
+                        else
+                        {
+                            ErrorMessage = "User not found.";
+                        }
+                    }
+                }
+                else if (action == "changePassword")
+                {
+                    if (string.IsNullOrEmpty(password) || password.Length < 6)
+                    {
+                        ErrorMessage = "Password must be at least 6 characters.";
+                    }
+                    else
+                    {
+                        var user = _userService.GetUserById(userId);
+                        if (user != null)
+                        {
+                            user.PasswordHash = _authService.HashPassword(password);
+                            _context.Users.Update(user);
+                            _context.SaveChanges();
+                            _logService.LogAction(currentUserId, "ChangePassword", "User", userId, $"Changed password for user ID: {userId}", "Success");
+                            SuccessMessage = "Password changed successfully.";
+                        }
+                        else
+                        {
+                            ErrorMessage = "User not found.";
+                        }
+                    }
+                }
+                else if (action == "delete")
+                {
+                    if (userId == currentUserId)
+                    {
+                        ErrorMessage = "You cannot delete your own account.";
+                    }
+                    else
+                    {
+                        var user = _userService.GetUserById(userId);
+                        if (user != null)
+                        {
+                            try
+                            {
+                                _context.Users.Remove(user);
+                                _context.SaveChanges();
+                                _logService.LogAction(currentUserId, "Delete", "User", userId, $"Deleted user: {user.Username}", "Success");
+                                SuccessMessage = $"User '{user.Username}' deleted successfully.";
+                            }
+                            catch (Exception deleteEx)
+                            {
+                                ErrorMessage = $"Cannot delete user: {deleteEx.InnerException?.Message ?? deleteEx.Message}";
+                                _logService.LogAction(currentUserId, "Delete", "User", userId, deleteEx.Message, "Failed");
+                            }
                         }
                         else
                         {

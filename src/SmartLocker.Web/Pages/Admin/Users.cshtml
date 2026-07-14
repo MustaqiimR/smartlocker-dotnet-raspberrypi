@@ -62,8 +62,15 @@
                     </select>
                 </div>
             </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="password">Change Password (leave blank to keep current)</label>
+                    <input type="password" id="password" name="password" placeholder="New password (min 6 chars)" />
+                </div>
+            </div>
             <div class="btn-group">
                 <button type="submit" class="btn btn-primary" name="action" value="edit">Save Changes</button>
+                <button type="submit" class="btn btn-warning" name="action" value="changePassword" onclick="return confirm('Change password for this user?')">Change Password</button>
                 <a href="/Admin/Users" class="btn btn-secondary">Cancel</a>
             </div>
         </form>
@@ -167,6 +174,10 @@ else
                                         <button type="submit" class="btn btn-success" name="action" value="enable" onclick="return confirm('Enable this user?')">Enable</button>
                                     </form>
                                 }
+                                <form method="post" style="display:inline;">
+                                    <input type="hidden" name="userId" value="@user.UserId" />
+                                    <button type="submit" class="btn btn-danger" name="action" value="delete" onclick="return confirm('Delete this user? This action cannot be undone.')">Delete</button>
+                                </form>
                             </div>
                         </td>
                     </tr>
