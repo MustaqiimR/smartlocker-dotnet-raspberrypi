@@ -137,6 +137,128 @@ namespace SmartLocker.Web.Data
             modelBuilder.Entity<Item>()
                 .HasIndex(i => i.SerialNumber)
                 .IsUnique();
+
+            // Seed data
+            SeedData(modelBuilder);
+        }
+
+        private void SeedData(ModelBuilder modelBuilder)
+        {
+            // Seed Roles
+            modelBuilder.Entity<Role>().HasData(
+                new Role { RoleId = 1, RoleName = "Admin", Description = "Administrator" },
+                new Role { RoleId = 2, RoleName = "Staff", Description = "Staff Member" }
+            );
+
+            // Seed Users
+            modelBuilder.Entity<User>().HasData(
+                new User 
+                { 
+                    UserId = 1, 
+                    Username = "admin", 
+                    Email = "admin@smartlocker.local",
+                    UserRegNo = "ADM001",
+                    FullName = "System Administrator",
+                    PasswordHash = "$2a$11$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86E36P4/OFS",
+                    IsActive = true,
+                    RoleId = 1,
+                    CreatedAt = DateTime.Now
+                },
+                new User 
+                { 
+                    UserId = 2, 
+                    Username = "staff1", 
+                    Email = "staff1@smartlocker.local",
+                    UserRegNo = "STF001",
+                    FullName = "John Doe",
+                    PasswordHash = "$2a$11$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86E36P4/OFS",
+                    IsActive = true,
+                    RoleId = 2,
+                    CreatedAt = DateTime.Now
+                }
+            );
+
+            // Seed Categories
+            modelBuilder.Entity<Category>().HasData(
+                new Category { CategoryId = 1, CategoryName = "Electronics", Description = "Electronic devices" },
+                new Category { CategoryId = 2, CategoryName = "Tools", Description = "Tools and equipment" },
+                new Category { CategoryId = 3, CategoryName = "Documents", Description = "Important documents" }
+            );
+
+            // Seed Item Statuses
+            modelBuilder.Entity<ItemStatus>().HasData(
+                new ItemStatus { ItemStatusId = 1, ItemStatusName = "Available", Description = "Available for borrowing" },
+                new ItemStatus { ItemStatusId = 2, ItemStatusName = "Borrowed", Description = "Currently borrowed" },
+                new ItemStatus { ItemStatusId = 3, ItemStatusName = "Maintenance", Description = "Under maintenance" },
+                new ItemStatus { ItemStatusId = 4, ItemStatusName = "Lost", Description = "Item lost" }
+            );
+
+            // Seed Locker Statuses
+            modelBuilder.Entity<LockerStatus>().HasData(
+                new LockerStatus { LockerStatusId = 1, LockerStatusName = "Available", Description = "Locker available" },
+                new LockerStatus { LockerStatusId = 2, LockerStatusName = "Occupied", Description = "Locker occupied" },
+                new LockerStatus { LockerStatusId = 3, LockerStatusName = "Locked", Description = "Locker locked" },
+                new LockerStatus { LockerStatusId = 4, LockerStatusName = "Maintenance", Description = "Locker under maintenance" }
+            );
+
+            // Seed Lockers
+            modelBuilder.Entity<Locker>().HasData(
+                new Locker { LockerId = 1, LockerName = "Locker-01", Location = "Floor 1", LockerStatusId = 1, GpioPin = "GPIO17", CreatedAt = DateTime.Now },
+                new Locker { LockerId = 2, LockerName = "Locker-02", Location = "Floor 1", LockerStatusId = 1, GpioPin = "GPIO27", CreatedAt = DateTime.Now },
+                new Locker { LockerId = 3, LockerName = "Locker-03", Location = "Floor 2", LockerStatusId = 1, GpioPin = "GPIO22", CreatedAt = DateTime.Now }
+            );
+
+            // Seed Items
+            modelBuilder.Entity<Item>().HasData(
+                new Item 
+                { 
+                    ItemId = 1, 
+                    ItemName = "Laptop", 
+                    SerialNumber = "LAP001",
+                    Description = "Dell Laptop",
+                    CategoryId = 1,
+                    ItemStatusId = 1,
+                    LockerId = 1,
+                    CreatedAt = DateTime.Now
+                },
+                new Item 
+                { 
+                    ItemId = 2, 
+                    ItemName = "Projector", 
+                    SerialNumber = "PROJ001",
+                    Description = "HD Projector",
+                    CategoryId = 1,
+                    ItemStatusId = 1,
+                    LockerId = 2,
+                    CreatedAt = DateTime.Now
+                },
+                new Item 
+                { 
+                    ItemId = 3, 
+                    ItemName = "Power Drill", 
+                    SerialNumber = "DRILL001",
+                    Description = "Cordless Power Drill",
+                    CategoryId = 2,
+                    ItemStatusId = 1,
+                    LockerId = 3,
+                    CreatedAt = DateTime.Now
+                }
+            );
+
+            // Seed Request Statuses
+            modelBuilder.Entity<RequestStatus>().HasData(
+                new RequestStatus { RequestStatusId = 1, RequestStatusName = "Pending", Description = "Pending approval" },
+                new RequestStatus { RequestStatusId = 2, RequestStatusName = "Approved", Description = "Approved" },
+                new RequestStatus { RequestStatusId = 3, RequestStatusName = "Rejected", Description = "Rejected" }
+            );
+
+            // Seed Borrow Statuses
+            modelBuilder.Entity<BorrowStatus>().HasData(
+                new BorrowStatus { BorrowStatusId = 1, BorrowStatusName = "Active", Description = "Active borrow" },
+                new BorrowStatus { BorrowStatusId = 2, BorrowStatusName = "Returned", Description = "Item returned" },
+                new BorrowStatus { BorrowStatusId = 3, BorrowStatusName = "Overdue", Description = "Overdue" },
+                new BorrowStatus { BorrowStatusId = 4, BorrowStatusName = "Lost", Description = "Item lost" }
+            );
         }
     }
 }
