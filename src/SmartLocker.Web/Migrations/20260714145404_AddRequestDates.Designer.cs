@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartLocker.Web.Data;
 
@@ -10,9 +11,11 @@ using SmartLocker.Web.Data;
 namespace SmartLocker.Web.Migrations
 {
     [DbContext(typeof(SmartLockerDbContext))]
-    partial class SmartLockerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260714145404_AddRequestDates")]
+    partial class AddRequestDates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.7");
